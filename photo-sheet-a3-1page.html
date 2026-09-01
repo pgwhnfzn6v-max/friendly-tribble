@@ -1,0 +1,111 @@
+<title>信和ホームズ 現場写真 A3 1枚</title>
+<meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;background:#e9e9e9;font-family:'Yu Gothic','Meiryo','Hiragino Kaku Gothic ProN',sans-serif;}
+  .bar{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #bbb;padding:8px 14px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:13px;}
+  .bar button{padding:5px 12px;border:1px solid #888;border-radius:4px;background:#f5f5f5;cursor:pointer;}
+  .bar button.primary{background:#222;color:#fff;border-color:#222;font-weight:bold;}
+  .bar .hint{color:#555;font-size:12px;}
+  .page{width:420mm;height:297mm;background:#fff;margin:10px auto;padding:9mm;display:flex;flex-direction:column;box-shadow:0 0 6px rgba(0,0,0,.3);}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:0.5mm solid #000;padding-bottom:1.5mm;margin-bottom:3mm;}
+  .head .t{font-size:4.6mm;font-weight:bold;}
+  .head .s{font-size:3mm;text-align:right;line-height:1.5;}
+  .grid{flex:1;display:grid;gap:3.5mm;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);min-height:0;}
+  .cell{display:flex;flex-direction:column;min-height:0;border:0.3mm solid #666;padding:1.5mm;}
+  .imgwrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fafafa;position:relative;}
+  .imgwrap img{max-width:100%;max-height:100%;object-fit:contain;}
+  .ph{font-size:3mm;color:#777;text-align:center;padding:4mm;line-height:1.6;}
+  .ph input{display:block;margin:2mm auto 0;font-size:3mm;}
+  .cap{display:flex;gap:2mm;align-items:center;margin-top:1.2mm;font-size:3.2mm;}
+  .cap .no{font-weight:bold;white-space:nowrap;}
+  .cap input{flex:1;font:inherit;border:none;border-bottom:0.2mm dotted #aaa;background:transparent;padding:0 1mm;}
+  .tools{position:absolute;top:2px;right:2px;display:flex;gap:3px;}
+  .tools button{font-size:11px;padding:2px 6px;border:1px solid #999;background:rgba(255,255,255,.9);border-radius:3px;cursor:pointer;}
+  .foot{margin-top:2mm;font-size:2.8mm;display:flex;justify-content:space-between;}
+  @page{size:A3 landscape;margin:0;}
+  @media print{
+    body{background:#fff;}
+    .bar,.tools{display:none !important;}
+    .page{box-shadow:none;margin:0;}
+    .cap input{border-bottom:none;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+
+<div class="bar">
+  <button class="primary" id="print">A3 カラーで印刷 / PDF保存</button>
+  <label>写真が出ない場合はここから選択：<input type="file" id="local" accept="image/*" multiple></label>
+  <button id="reload">ドライブから再読込</button>
+  <span class="hint">印刷設定：用紙 A3・横・余白なし・カラー・「背景のグラフィック」ON。PDFにするには送信先で「PDFとして保存」。</span>
+</div>
+
+<div class="page">
+  <div class="head">
+    <div class="t">現場写真　信和ホームズ㈱ 社屋 車寄せ（横浜市都筑区茅ケ崎南 3-23-5）</div>
+    <div class="s">撤去範囲図（図番 01）添付資料　／　現地調査 2026/09/02（水）9:00<br>専務 藤井 様（熊谷組 担当）／社長 古谷 様／会長 園尾 様</div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="foot"><span>撤去範囲：前方パネル 一部4面 ／ 後方パネル 1面 ／ 奥のルーバー＋下地　（取合い部シールは先行撤去）</span><span>1 / 1</span></div>
+</div>
+
+<script>
+const photos=[
+  {id:'1V-TgydBuXKpJjIzpj0BIj_rcAl7Kv4fK',name:'IMG_7792.JPG'},
+  {id:'14Jz2VvtDlMflwyK_Tlzb5V1PyTa5Rshu',name:'IMG_7793.JPG'},
+  {id:'1UVFXJdEZ6K-5_zwnmEUxMk0qAjzSE6OB',name:'IMG_7794.JPG'},
+  {id:'1AfGAVTrTw7SuX_b8d3MGeZkoOlYVcBKY',name:'IMG_7798.JPG'},
+  {id:'1onkIDQNzJKuNNAykNpWut5Ho5iCQ4kNw',name:'IMG_7799.JPG'},
+  {id:'1KgSprLoXP0BCy6-iOqsxmW2NflxuJKlG',name:'IMG_7801.JPG'}
+];
+const state=photos.map(p=>({...p,url:null,cap:'',rot:0}));
+const srcs=id=>['https://drive.google.com/thumbnail?id='+id+'&sz=w2000',
+                'https://lh3.googleusercontent.com/d/'+id+'=w2000'];
+
+function render(){
+  const g=document.getElementById('grid'); g.innerHTML='';
+  state.forEach((it,i)=>{
+    const cell=document.createElement('div'); cell.className='cell';
+    cell.innerHTML='<div class="imgwrap"></div>'+
+      '<div class="cap"><span class="no">写真 '+(i+1)+'</span><input type="text" placeholder="'+it.name+'"></div>';
+    const wrap=cell.querySelector('.imgwrap');
+    const inp=cell.querySelector('.cap input'); inp.value=it.cap; inp.oninput=()=>{it.cap=inp.value;};
+    const img=document.createElement('img'); img.referrerPolicy='no-referrer';
+    let n=0; const list=it.url?[it.url]:srcs(it.id);
+    img.onerror=()=>{ n++; if(n<list.length){img.src=list[n];} else {showPlaceholder(wrap,it,i);} };
+    img.onload=()=>rot(wrap,it.rot);
+    img.src=list[0];
+    wrap.appendChild(img);
+    const tools=document.createElement('div'); tools.className='tools';
+    tools.innerHTML='<button>回転</button><button>←</button><button>→</button>';
+    tools.children[0].onclick=()=>{it.rot=(it.rot+90)%360;rot(wrap,it.rot);};
+    tools.children[1].onclick=()=>{if(i>0){[state[i-1],state[i]]=[state[i],state[i-1]];render();}};
+    tools.children[2].onclick=()=>{if(i<state.length-1){[state[i+1],state[i]]=[state[i],state[i+1]];render();}};
+    wrap.appendChild(tools);
+    g.appendChild(cell);
+  });
+}
+function showPlaceholder(wrap,it,i){
+  wrap.querySelectorAll('img').forEach(e=>e.remove());
+  const d=document.createElement('div'); d.className='ph';
+  d.innerHTML=it.name+' を表示できません。<br>Googleにログインしたブラウザで開くか、<br>下から写真ファイルを選んでください。';
+  const f=document.createElement('input'); f.type='file'; f.accept='image/*';
+  f.onchange=e=>{const file=e.target.files[0]; if(file){it.url=URL.createObjectURL(file); render();}};
+  d.appendChild(f); wrap.appendChild(d);
+}
+function rot(wrap,deg){
+  const img=wrap.querySelector('img'); if(!img) return;
+  img.style.transform='rotate('+deg+'deg)';
+  if(deg%180===90){img.style.maxWidth=wrap.clientHeight+'px';img.style.maxHeight=wrap.clientWidth+'px';}
+  else{img.style.maxWidth='100%';img.style.maxHeight='100%';}
+}
+document.getElementById('print').onclick=()=>window.print();
+document.getElementById('reload').onclick=()=>{state.forEach(s=>s.url=null);render();};
+document.getElementById('local').onchange=e=>{
+  const fs=[...e.target.files].filter(f=>f.type.startsWith('image/'))
+    .sort((a,b)=>a.name.localeCompare(b.name,'ja',{numeric:true}));
+  fs.forEach((f,i)=>{ if(state[i]){state[i].url=URL.createObjectURL(f); state[i].name=f.name;} });
+  render(); e.target.value='';
+};
+render();
+</script>
