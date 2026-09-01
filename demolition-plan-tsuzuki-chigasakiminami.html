@@ -2,15 +2,9 @@
 <style>
   html,body{margin:0;padding:0;background:#f4f4f4;}
   svg{display:block;background:#fff;width:420mm;height:297mm;margin:0 auto;}
-  @media screen{
-    body{padding:8px;}
-    svg{width:100%;height:auto;max-width:1600px;box-shadow:0 0 8px rgba(0,0,0,.25);}
-  }
+  @media screen{ body{padding:8px;} svg{width:100%;height:auto;max-width:1600px;box-shadow:0 0 8px rgba(0,0,0,.25);} }
   @page{size:A3 landscape;margin:0;}
-  @media print{
-    html,body{background:#fff;padding:0;}
-    svg{width:420mm;height:297mm;box-shadow:none;}
-  }
+  @media print{ html,body{background:#fff;padding:0;} svg{width:420mm;height:297mm;box-shadow:none;} }
 </style>
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 297" preserveAspectRatio="xMidYMid meet"
@@ -26,295 +20,265 @@
 </defs>
 
 <rect x="10" y="8" width="402" height="281" fill="none" stroke="#000" stroke-width="0.7"/>
+<line x1="216" y1="8" x2="216" y2="289" stroke="#000" stroke-width="0.3"/>
 
-<!-- ================= ① 正面立面図 ================= -->
-<text x="16" y="19" font-size="3.6" font-weight="bold">① 正面立面図（道路側より見る）</text>
-<text x="98" y="19" font-size="2.6">S = NTS（形状・寸法は現地実測による）</text>
+<!-- ==================== ① 正面図 ==================== -->
+<text x="16" y="19" font-size="3.8" font-weight="bold">① 正面図（道路側より見る）</text>
+<text x="90" y="19" font-size="2.6">S = NTS（形状・寸法は現地実測による）</text>
 
-<!-- 背後：既存事務所ビル -->
+<!-- 背後：既存建屋 -->
 <g stroke="#000" stroke-width="0.25" fill="none" stroke-dasharray="1.6 1.2">
-  <rect x="150" y="24" width="62" height="50"/>
-  <line x1="150" y1="38" x2="212" y2="38"/><line x1="150" y1="52" x2="212" y2="52"/><line x1="150" y1="66" x2="212" y2="66"/>
-  <rect x="200" y="86" width="12" height="48"/>
+  <rect x="150" y="24" width="60" height="54"/>
+  <line x1="150" y1="38" x2="210" y2="38"/><line x1="150" y1="52" x2="210" y2="52"/><line x1="150" y1="66" x2="210" y2="66"/>
 </g>
-<text x="152" y="22" font-size="2.2">既存事務所ビル（残置）</text>
+<text x="152" y="22" font-size="2.2">既存建屋（残置）</text>
+
+<!-- B：中段梁＋屋根 一体 -->
+<path d="M40,78 H206 V90 H156 V97 H118 V96 H46 V90 H40 Z" fill="#fff" stroke="none"/>
+<path d="M40,78 H206 V90 H156 V97 H118 V96 H46 V90 H40 Z" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
+<!-- CON部（撤去要否 要確認） -->
+<rect x="118" y="90" width="38" height="7" fill="#fff" stroke="#000" stroke-width="0.5" stroke-dasharray="2 1.2"/>
+<text x="137" y="94.8" font-size="2.2" text-anchor="middle">CON</text>
 
 <!-- A：社名サイン付き 上部梁 -->
-<rect x="44" y="36" width="128" height="16" fill="#fff" stroke="none"/>
-<rect x="44" y="36" width="128" height="16" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-<rect x="48" y="39.5" width="120" height="9" fill="none" stroke="#000" stroke-width="0.25" stroke-dasharray="1.4 1"/>
+<rect x="46" y="40" width="132" height="16" fill="#fff" stroke="none"/>
+<rect x="46" y="40" width="132" height="16" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
+<rect x="50" y="43.5" width="124" height="9" fill="none" stroke="#000" stroke-width="0.25" stroke-dasharray="1.4 1"/>
 
-<!-- B：中段 大梁 -->
-<rect x="38" y="74" width="168" height="12" fill="#fff" stroke="none"/>
-<rect x="38" y="74" width="168" height="12" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-
-<!-- C：採光屋根（左側） -->
-<polygon points="44,88 112,88 112,94.5 44,94.5" fill="#fff" stroke="none"/>
-<polygon points="44,88 112,88 112,94.5 44,94.5" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-
-<!-- 既存RCスラブ（右側・残置） -->
-<rect x="112" y="88" width="94" height="9" fill="#fff" stroke="#000" stroke-width="0.5"/>
-<g stroke="#000" stroke-width="0.25">
-  <line x1="112" y1="93" x2="206" y2="93"/>
-</g>
-<g fill="#fff" stroke="#000" stroke-width="0.4">
-  <rect x="128" y="97" width="6" height="37"/><rect x="158" y="97" width="6" height="37"/><rect x="188" y="97" width="6" height="37"/>
-</g>
-<text x="138" y="104" font-size="2.2" stroke="#fff" stroke-width="0.9" paint-order="stroke" stroke-linejoin="round">既存RCスラブ・天井（照明共）／角柱：残置</text>
 <!-- 丸柱（残置） -->
 <g fill="#fff" stroke="#000" stroke-width="0.5">
-  <polygon points="54,52 62,52 53,134 45,134"/>
-  <polygon points="158,52 166,52 168,134 160,134"/>
+  <polygon points="56,56 64,56 55,134 47,134"/>
+  <polygon points="164,56 172,56 174,134 166,134"/>
 </g>
 <g stroke="#000" stroke-width="0.15" stroke-dasharray="3 1 0.6 1">
-  <line x1="58" y1="54" x2="49" y2="132"/><line x1="162" y1="54" x2="164" y2="132"/>
+  <line x1="60" y1="58" x2="51" y2="132"/><line x1="168" y1="58" x2="170" y2="132"/>
 </g>
-
-
-<!-- GL -->
-<line x1="20" y1="134" x2="212" y2="134" stroke="#000" stroke-width="0.8"/>
-<rect x="20" y="134" width="192" height="3" fill="url(#ground)" stroke="none"/>
-<text x="213" y="135" font-size="2.4">GL</text>
-
-<!-- 記号 -->
-<g font-size="3" text-anchor="middle">
-  <circle cx="108" cy="44" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="108" y="45.1">A</text>
-  <circle cx="108" cy="80" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="108" y="81.1">B</text>
-  <circle cx="76" cy="104" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="76" y="105.1">C</text>
-</g>
-<line x1="76" y1="100.6" x2="76" y2="94.5" stroke="#000" stroke-width="0.3"/>
-<text x="176" y="46" font-size="2.2">社名サイン</text>
-<line x1="175" y1="45" x2="170" y2="43" stroke="#000" stroke-width="0.25"/>
-<text x="66" y="128" font-size="2.2" stroke="#fff" stroke-width="0.9" paint-order="stroke" stroke-linejoin="round">既存 丸柱（残置・要確認）</text>
-<line x1="65" y1="126.5" x2="52" y2="120" stroke="#000" stroke-width="0.25"/>
-
-<!-- 寸法 -->
-<g stroke="#000" stroke-width="0.3" font-size="2.3" text-anchor="middle">
-  <line x1="44" y1="142" x2="172" y2="142"/><use href="#tick" x="44" y="142"/><use href="#tick" x="172" y="142"/>
-  <line x1="44" y1="136" x2="44" y2="144"/><line x1="172" y1="136" x2="172" y2="144"/>
-  <text x="108" y="140.6" stroke="none">L1 ＝ ________（A サイン梁 全長）</text>
-
-  <line x1="38" y1="150" x2="206" y2="150"/><use href="#tick" x="38" y="150"/><use href="#tick" x="206" y="150"/>
-  <line x1="38" y1="144" x2="38" y2="152"/><line x1="206" y1="136" x2="206" y2="152"/>
-  <text x="122" y="148.6" stroke="none">L2 ＝ ________（B 中段梁 全長）</text>
-
-  <line x1="34" y1="86" x2="34" y2="134"/><use href="#tick" x="34" y="86"/><use href="#tick" x="34" y="134"/>
-  <text transform="rotate(-90 34 110)" x="34" y="110" stroke="none" dy="-1">H1 ＝ ______（B 下端）</text>
-  <line x1="26" y1="52" x2="26" y2="134"/><use href="#tick" x="26" y="52"/><use href="#tick" x="26" y="134"/>
-  <text transform="rotate(-90 26 93)" x="26" y="93" stroke="none" dy="-1">H2 ＝ ______（A 下端）</text>
-  <line x1="18" y1="36" x2="18" y2="134"/><use href="#tick" x="18" y="36"/><use href="#tick" x="18" y="134"/>
-  <text transform="rotate(-90 18 85)" x="18" y="85" stroke="none" dy="-1">H3 ＝ ______（A 天端・最高）</text>
-</g>
-
-<!-- ================= ② 側面図 ================= -->
-<text x="222" y="19" font-size="3.6" font-weight="bold">② 側面図（ポリカ屋根部で切る）</text>
-<text x="304" y="19" font-size="2.6">S = NTS</text>
-
-<g stroke="#000" stroke-width="0.3" fill="none">
-  <rect x="350" y="24" width="50" height="110"/>
-  <line x1="350" y1="52" x2="400" y2="52"/><line x1="350" y1="80" x2="400" y2="80"/><line x1="350" y1="107" x2="400" y2="107"/>
-</g>
-<text x="352" y="22" font-size="2.2">既存事務所ビル（残置）</text>
-
-<rect x="244" y="36" width="18" height="16" fill="#fff" stroke="none"/>
-<rect x="244" y="36" width="18" height="16" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-<rect x="246" y="74" width="18" height="12" fill="#fff" stroke="none"/>
-<rect x="246" y="74" width="18" height="12" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-<polygon points="264,90 344,84 344,87.5 264,93.5" fill="#fff" stroke="none"/>
-<polygon points="264,90 344,84 344,87.5 264,93.5" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-
-<g fill="#fff" stroke="#000" stroke-width="0.5">
-  <rect x="248" y="52" width="10" height="82"/>
-</g>
-<rect x="344" y="84" width="6" height="50" fill="#fff" stroke="#000" stroke-width="0.4"/>
-
-<line x1="230" y1="134" x2="406" y2="134" stroke="#000" stroke-width="0.8"/>
-<rect x="230" y="134" width="176" height="3" fill="url(#ground)" stroke="none"/>
-<text x="407" y="135" font-size="2.4">GL</text>
-
-<g font-size="3" text-anchor="middle">
-  <circle cx="236" cy="44" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="236" y="45.1">A</text>
-  <circle cx="236" cy="80" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="236" y="81.1">B</text>
-  <circle cx="304" cy="102" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="304" y="103.1">C</text>
-</g>
-<line x1="239.4" y1="44" x2="244" y2="44" stroke="#000" stroke-width="0.3"/>
-<line x1="239.4" y1="80" x2="246" y2="80" stroke="#000" stroke-width="0.3"/>
-<line x1="304" y1="98.6" x2="304" y2="91" stroke="#000" stroke-width="0.3"/>
-<text x="266" y="100" font-size="2.2">波板は建物側へ上り勾配（雨水は道路側へ流れる）　勾配 ＝ ______</text>
-
-<g stroke="#000" stroke-width="0.3" font-size="2.3" text-anchor="middle">
-  <line x1="264" y1="142" x2="344" y2="142"/><use href="#tick" x="264" y="142"/><use href="#tick" x="344" y="142"/>
-  <line x1="264" y1="136" x2="264" y2="144"/><line x1="344" y1="136" x2="344" y2="144"/>
-  <text x="304" y="140.6" stroke="none">D ＝ ________（C 屋根 奥行）</text>
-  <line x1="244" y1="150" x2="344" y2="150"/><use href="#tick" x="244" y="150"/><use href="#tick" x="344" y="150"/>
-  <text x="294" y="148.6" stroke="none">D2 ＝ ________（車寄せ 全奥行）</text>
-</g>
-<g font-size="2.3">
-  <line x1="240" y1="120" x2="228" y2="120" stroke="#000" stroke-width="0.4"/>
-  <polygon points="228,120 231,118.8 231,121.2" fill="#000"/>
-  <text x="232" y="117">道路側</text>
-</g>
-
-<!-- ================= ③ 屋根伏図 ================= -->
-<text x="16" y="166" font-size="3.6" font-weight="bold">③ 車寄せ 屋根伏図（撤去範囲）</text>
-<text x="99" y="166" font-size="2.6">S = NTS</text>
-<text x="112" y="173" font-size="2.4" text-anchor="middle">道　路　側</text>
-
-<rect x="44" y="176" width="128" height="6" fill="#fff" stroke="none"/>
-<rect x="44" y="176" width="128" height="6" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-<rect x="38" y="185" width="168" height="6" fill="#fff" stroke="none"/>
-<rect x="38" y="185" width="168" height="6" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-
-<!-- C ポリカ屋根 -->
-<rect x="44" y="191" width="68" height="44" fill="#fff" stroke="none"/>
-<rect x="44" y="191" width="68" height="44" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-<g stroke="#000" stroke-width="0.25">
-  <line x1="52" y1="191" x2="52" y2="235"/><line x1="60" y1="191" x2="60" y2="235"/>
-  <line x1="68" y1="191" x2="68" y2="235"/><line x1="84" y1="191" x2="84" y2="235"/>
-  <line x1="92" y1="191" x2="92" y2="235"/><line x1="100" y1="191" x2="100" y2="235"/>
-</g>
-<line x1="76" y1="191" x2="76" y2="235" stroke="#000" stroke-width="0.6"/>
-<line x1="44" y1="213" x2="112" y2="213" stroke="#000" stroke-width="0.6"/>
-
-<!-- 残置：RCスラブ -->
-<rect x="112" y="191" width="94" height="44" fill="#fff" stroke="#000" stroke-width="0.5"/>
-<g font-size="2.2" text-anchor="middle">
-  <text x="159" y="211">既存RCスラブ（天井・照明）</text>
-  <text x="159" y="215.5">残 置</text>
-</g>
+<!-- 建屋側 角柱（残置） -->
 <g fill="#fff" stroke="#000" stroke-width="0.4">
-  <rect x="126" y="193" width="5" height="5"/><rect x="126" y="228" width="5" height="5"/>
-  <rect x="186" y="193" width="5" height="5"/><rect x="186" y="228" width="5" height="5"/>
+  <rect x="128" y="97" width="6" height="37"/><rect x="192" y="90" width="6" height="44"/>
 </g>
-<!-- 隣地側壁・建物取合い -->
-<rect x="38" y="191" width="6" height="44" fill="#fff" stroke="#000" stroke-width="0.4"/>
-<text x="41" y="213" font-size="2" text-anchor="middle" transform="rotate(-90 41 213)">隣地側 既存壁（残置）</text>
-<rect x="38" y="235" width="168" height="6" fill="none" stroke="#000" stroke-width="0.4"/>
-<text x="122" y="239.2" font-size="2.2" text-anchor="middle">既存建物 取合い（残置）</text>
-<!-- 丸柱 -->
-<g fill="#fff" stroke="#000" stroke-width="0.5">
-  <circle cx="58" cy="179" r="3"/><circle cx="162" cy="179" r="3"/>
-</g>
-<text x="166" y="176" font-size="2.1">既存 丸柱（残置・要確認）</text>
+
+<line x1="24" y1="134" x2="210" y2="134" stroke="#000" stroke-width="0.8"/>
+<rect x="24" y="134" width="186" height="3" fill="url(#ground)" stroke="none"/>
+<text x="211" y="135" font-size="2.4">GL</text>
 
 <g font-size="3" text-anchor="middle">
-  <circle cx="108" cy="179" r="3.2" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="108" y="180.1">A</text>
-  <circle cx="30" cy="188" r="3.2" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="30" y="189.1">B</text>
-  <circle cx="78" cy="204" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="78" y="205.1">C</text>
+  <circle cx="108" cy="48" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="108" y="49.1">A</text>
+  <circle cx="86" cy="84" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="86" y="85.1">B</text>
 </g>
-<line x1="33.2" y1="188" x2="38" y2="188" stroke="#000" stroke-width="0.3"/>
+<text x="182" y="46" font-size="2.2">社名サイン</text>
+<line x1="181" y1="45" x2="176" y2="43" stroke="#000" stroke-width="0.25"/>
+<text x="172" y="104" font-size="2.2">吹抜け</text>
+<text x="62" y="104" font-size="2.2" stroke="#fff" stroke-width="0.9" paint-order="stroke" stroke-linejoin="round">B は 中段梁＋屋根（波板）一体で撤去</text>
+<text x="66" y="128" font-size="2.2" stroke="#fff" stroke-width="0.9" paint-order="stroke" stroke-linejoin="round">既存 丸柱（残置・要確認）</text>
+<line x1="65" y1="126.5" x2="54" y2="120" stroke="#000" stroke-width="0.25"/>
 
-<g stroke="#000" stroke-width="0.3" font-size="2.2" text-anchor="middle">
-  <line x1="44" y1="247" x2="112" y2="247"/><use href="#tick" x="44" y="247"/><use href="#tick" x="112" y="247"/>
-  <line x1="44" y1="241" x2="44" y2="249"/><line x1="112" y1="241" x2="112" y2="249"/>
-  <text x="78" y="245.6" stroke="none">W1 ＝ ______（C 撤去）</text>
-  <line x1="112" y1="247" x2="206" y2="247"/><use href="#tick" x="206" y="247"/>
-  <line x1="206" y1="241" x2="206" y2="249"/>
-  <text x="159" y="245.6" stroke="none">W2 ＝ ______（RC 残置）</text>
-  <line x1="36" y1="191" x2="36" y2="235"/><use href="#tick" x="36" y="191"/><use href="#tick" x="36" y="235"/>
-  <text transform="rotate(-90 36 213)" x="36" y="213" stroke="none" dy="-1">D ＝ ______</text>
+<g stroke="#000" stroke-width="0.3" font-size="2.3" text-anchor="middle">
+  <line x1="46" y1="142" x2="178" y2="142"/><use href="#tick" x="46" y="142"/><use href="#tick" x="178" y="142"/>
+  <line x1="46" y1="136" x2="46" y2="144"/><line x1="178" y1="136" x2="178" y2="144"/>
+  <text x="112" y="140.6" stroke="none">L1 ＝ ________（A サイン梁 全長）</text>
+  <line x1="40" y1="150" x2="206" y2="150"/><use href="#tick" x="40" y="150"/><use href="#tick" x="206" y="150"/>
+  <line x1="40" y1="144" x2="40" y2="152"/><line x1="206" y1="136" x2="206" y2="152"/>
+  <text x="123" y="148.6" stroke="none">L2 ＝ ________（B 中段梁 全長）</text>
+  <line x1="36" y1="90" x2="36" y2="134"/><use href="#tick" x="36" y="90"/><use href="#tick" x="36" y="134"/>
+  <text transform="rotate(-90 36 112)" x="36" y="112" stroke="none" dy="-1">H1 ＝ ______（B 下端）</text>
+  <line x1="28" y1="56" x2="28" y2="134"/><use href="#tick" x="28" y="56"/><use href="#tick" x="28" y="134"/>
+  <text transform="rotate(-90 28 95)" x="28" y="95" stroke="none" dy="-1">H2 ＝ ______（A 下端）</text>
+  <line x1="20" y1="40" x2="20" y2="134"/><use href="#tick" x="20" y="40"/><use href="#tick" x="20" y="134"/>
+  <text transform="rotate(-90 20 87)" x="20" y="87" stroke="none" dy="-1">H3 ＝ ______（A 天端・最高）</text>
 </g>
-<text x="44" y="255" font-size="2.2">※ C：ポリカ波板 ＝ 2スパン（中央に小梁）×前後2列。割付 ______ 枚、母屋ピッチ ______、板厚 ______ を現地確認。</text>
-<text x="44" y="259.5" font-size="2.2">※ 写真①（見上げ）のマーキング範囲＝この C の部分。</text>
+<text x="40" y="158" font-size="2.2">※ 丸柱・角柱・既存建屋は残置。CON 部の撤去要否は現地確認（②参照）。</text>
 
-<!-- ================= 注記 ================= -->
-<rect x="16" y="262" width="198" height="26" fill="none" stroke="#000" stroke-width="0.4"/>
-<text x="18.5" y="266.5" font-size="2.6" font-weight="bold">注 記</text>
-<g font-size="2.2">
-  <text x="30" y="266.5">1. 本図は現地写真をもとに作成した略図。形状・寸法・スパン割は現地実測により確定する。</text>
-  <text x="30" y="270.5">2. 撤去範囲＝ A：社名サイン付き上部梁／B：中段 大梁／C：車寄せ 採光屋根（ポリカ波板＋母屋）。</text>
-  <text x="30" y="274.5">3. B（中段梁）は構造体。切断範囲・順序・仮支持（サポート）を検討。梁のみ撤去時は残る丸柱の安定を確認。</text>
-  <text x="30" y="278.5">4. サイン内部の照明・電源配線、屋根下の照明・配線の切離しを事前に行う。</text>
-  <text x="30" y="282.5">5. 高所作業（A 天端 H≒7m 想定）。高所作業車／足場、道路使用・歩道養生、営業中の車両移動を確認。</text>
-  <text x="30" y="286.5">6. 石綿含有建材（成形板・シーリング等）の事前調査結果を確認のうえ着手。撤去材は分別・積込・搬出・処分。</text>
-</g>
-
-<!-- ================= ④ 撤去範囲リスト ================= -->
-<text x="220" y="166" font-size="3.6" font-weight="bold">④ 撤去範囲リスト</text>
+<!-- ==================== ④ 撤去範囲リスト ==================== -->
+<text x="16" y="167" font-size="3.6" font-weight="bold">③ 撤去範囲リスト</text>
 <g stroke="#000" stroke-width="0.4" fill="none">
-  <rect x="220" y="169" width="190" height="46"/>
-  <line x1="220" y1="176" x2="410" y2="176"/>
-  <line x1="220" y1="186" x2="410" y2="186"/>
-  <line x1="220" y1="196" x2="410" y2="196"/>
-  <line x1="220" y1="206" x2="410" y2="206"/>
-  <line x1="228" y1="169" x2="228" y2="215"/>
-  <line x1="272" y1="169" x2="272" y2="215"/>
-  <line x1="308" y1="169" x2="308" y2="215"/>
-  <line x1="348" y1="169" x2="348" y2="215"/>
+  <rect x="16" y="170" width="196" height="38"/>
+  <line x1="16" y1="177" x2="212" y2="177"/>
+  <line x1="16" y1="188" x2="212" y2="188"/>
+  <line x1="16" y1="199" x2="212" y2="199"/>
+  <line x1="24" y1="170" x2="24" y2="208"/>
+  <line x1="76" y1="170" x2="76" y2="208"/>
+  <line x1="118" y1="170" x2="118" y2="208"/>
+  <line x1="152" y1="170" x2="152" y2="208"/>
 </g>
 <g font-size="2.3" font-weight="bold" text-anchor="middle">
-  <text x="224" y="173.8">記号</text><text x="250" y="173.8">撤去部位</text><text x="290" y="173.8">仕様・材質（想定）</text>
-  <text x="328" y="173.8">数量（実測記入）</text><text x="379" y="173.8">備　考</text>
+  <text x="20" y="174.8">記号</text><text x="50" y="174.8">撤去部位</text><text x="97" y="174.8">仕様・材質（想定）</text>
+  <text x="135" y="174.8">数量（実測記入）</text><text x="182" y="174.8">備　考</text>
 </g>
 <g font-size="2.1">
-  <text x="222.6" y="182" font-size="2.6" font-weight="bold">A</text>
-  <text x="229.5" y="180.5">社名サイン付き 上部梁</text><text x="229.5" y="184.3">（門型 頂部・両端はね出し共）</text>
-  <text x="273.5" y="180.5">鋼製サイン板＋梁</text><text x="273.5" y="184.3">板金・化粧板巻き</text>
-  <text x="309.5" y="180.5">L ＝ ______ m</text><text x="309.5" y="184.3">H ＝ ______ m</text>
-  <text x="349.5" y="180.5">サイン内 照明・配線の切離し</text><text x="349.5" y="184.3">高所作業車 必要（H≒7m）</text>
+  <text x="18.6" y="183" font-size="2.6" font-weight="bold">A</text>
+  <text x="25.5" y="181.5">社名サイン付き 上部梁</text><text x="25.5" y="185.5">（門型 頂部・はね出し共）</text>
+  <text x="77.5" y="181.5">鋼製サイン板＋梁</text><text x="77.5" y="185.5">板金・化粧板巻き</text>
+  <text x="119.5" y="181.5">L ＝ ______ m</text><text x="119.5" y="185.5">H ＝ ______ m</text>
+  <text x="153.5" y="181.5">サイン内 照明・配線の切離し</text><text x="153.5" y="185.5">高所作業車 必要（H≒7m）</text>
 
-  <text x="222.6" y="192" font-size="2.6" font-weight="bold">B</text>
-  <text x="229.5" y="190.5">中段 大梁（門型 中段）</text><text x="229.5" y="194.3">左右はね出し部を含む</text>
-  <text x="273.5" y="190.5">RC／鉄骨＋板金・化粧板</text><text x="273.5" y="194.3">錆汁・欠損・鉄筋露出あり</text>
-  <text x="309.5" y="190.5">L ＝ ______ m</text><text x="309.5" y="194.3">H ＝ ______ m</text>
-  <text x="349.5" y="190.5">構造体：切断範囲・仮支持を検討</text><text x="349.5" y="194.3">RCスラブとの取合い切断位置</text>
+  <text x="18.6" y="194" font-size="2.6" font-weight="bold">B</text>
+  <text x="25.5" y="192.5">中段梁 ＋ 屋根 一体</text><text x="25.5" y="196.5">（波板／ルーバー部を含む）</text>
+  <text x="77.5" y="192.5">鋼製梁＋ポリカ波板</text><text x="77.5" y="196.5">鋼製・アルミ ルーバー</text>
+  <text x="119.5" y="192.5">L ＝ ______ m</text><text x="119.5" y="196.5">面積 ＝ ______ ㎡</text>
+  <text x="153.5" y="192.5">構造体：切断範囲・順序・仮支持を検討</text><text x="153.5" y="196.5">直下の駐車車両 移動・養生</text>
 
-  <text x="222.6" y="202" font-size="2.6" font-weight="bold">C</text>
-  <text x="229.5" y="200.5">車寄せ 採光屋根</text><text x="229.5" y="204.3">（ポリカ波板＋鋼製母屋・小梁）</text>
-  <text x="273.5" y="200.5">ポリカ波板 t ＝ ______</text><text x="273.5" y="204.3">鋼製母屋・アングル</text>
-  <text x="309.5" y="200.5">W ______ × D ______</text><text x="309.5" y="204.3">＝ ______ ㎡（ ___ 枚）</text>
-  <text x="349.5" y="200.5">直下の駐車車両 移動・養生</text><text x="349.5" y="204.3">撤去後の雨仕舞い・端部処理</text>
-
-  <text x="221.5" y="211.5" font-size="2.1" font-weight="bold">残置</text>
-  <text x="229.5" y="210.5">既存RCスラブ（天井・照明）</text><text x="229.5" y="214.3">角柱・門型 丸柱・隣地側 既存壁</text>
-  <text x="273.5" y="210.5">—</text>
-  <text x="309.5" y="210.5">—</text>
-  <text x="349.5" y="210.5">丸柱の存置／撤去はお客様と確認</text><text x="349.5" y="214.3">残置部の養生・仕上げ復旧の要否</text>
+  <text x="17.5" y="204.5" font-size="2.1" font-weight="bold">要確認</text>
+  <text x="25.5" y="203.5">CON 部（RCスラブ）／ルーバー部の撤去要否</text><text x="25.5" y="207">門型 丸柱・角柱の存置／撤去</text>
+  <text x="77.5" y="203.5">RC スラブ・天井・照明</text><text x="77.5" y="207">—</text>
+  <text x="119.5" y="203.5">______ ㎡</text><text x="119.5" y="207">—</text>
+  <text x="153.5" y="203.5">現地でお客様と範囲確定のうえ図面へ朱書き</text><text x="153.5" y="207">吹抜け部は撤去なし</text>
 </g>
 
-<!-- ================= 凡例 ================= -->
-<rect x="220" y="218" width="190" height="13" fill="none" stroke="#000" stroke-width="0.4"/>
-<text x="222.5" y="222.8" font-size="2.6" font-weight="bold">凡 例</text>
+<!-- ==================== 凡例 ==================== -->
+<rect x="16" y="211" width="196" height="13" fill="none" stroke="#000" stroke-width="0.4"/>
+<text x="18.5" y="215.8" font-size="2.6" font-weight="bold">凡 例</text>
 <g font-size="2.3">
-  <rect x="236" y="220" width="10" height="6" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
-  <text x="248" y="224.5">撤去範囲（A・B・C）</text>
-  <line x1="292" y1="223" x2="304" y2="223" stroke="#000" stroke-width="0.5"/>
-  <text x="306" y="224.5">既存・残置部</text>
-  <line x1="344" y1="223" x2="356" y2="223" stroke="#000" stroke-width="0.3" stroke-dasharray="1.6 1.2"/>
-  <text x="358" y="224.5">後方・見え掛り／不明部</text>
-  <text x="236" y="229.5">※ 太線＋斜線ハッチ ＝ 撤去、細線 ＝ 残置。切断位置は現地で墨出し・写真記録のこと。</text>
+  <rect x="32" y="213" width="9" height="6" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
+  <text x="43" y="217.5">撤去範囲（A・B）</text>
+  <rect x="82" y="213" width="9" height="6" fill="none" stroke="#000" stroke-width="0.5" stroke-dasharray="2 1.2"/>
+  <text x="93" y="217.5">撤去要否 要確認</text>
+  <line x1="140" y1="216" x2="150" y2="216" stroke="#000" stroke-width="0.5"/>
+  <text x="152" y="217.5">既存・残置部</text>
+  <line x1="184" y1="216" x2="194" y2="216" stroke="#000" stroke-width="0.3" stroke-dasharray="1.6 1.2"/>
+  <text x="196" y="217.5">後方</text>
+  <text x="32" y="222.5">※ 太線＋斜線ハッチ ＝ 撤去。切断位置は現地で墨出し・写真記録のこと。</text>
 </g>
 
-<!-- ================= 現調メモ ================= -->
-<rect x="220" y="234" width="58" height="55" fill="none" stroke="#000" stroke-width="0.4"/>
-<line x1="220" y1="240" x2="278" y2="240" stroke="#000" stroke-width="0.4"/>
-<text x="222.5" y="238.5" font-size="2.6" font-weight="bold">現調メモ（実測・所見）</text>
+<!-- ==================== 注記 ==================== -->
+<rect x="16" y="227" width="196" height="27" fill="none" stroke="#000" stroke-width="0.4"/>
+<text x="18.5" y="231.5" font-size="2.6" font-weight="bold">注 記</text>
+<g font-size="2.2">
+  <text x="30" y="231.5">1. 本図は現地写真および手描きスケッチをもとに作成した略図。寸法・範囲は現地実測により確定する。</text>
+  <text x="30" y="235.5">2. 撤去範囲＝ A：社名サイン付き上部梁／B：中段梁＋屋根（波板・ルーバー部）一体。</text>
+  <text x="30" y="239.5">3. B は構造体。切断範囲・順序・仮支持（サポート）を検討。梁のみ撤去時は残る丸柱の安定を確認。</text>
+  <text x="30" y="243.5">4. サイン内部の照明・電源配線、屋根下の照明・配線は事前に切離し。</text>
+  <text x="30" y="247.5">5. 高所作業（A 天端 H≒7m 想定）。高所作業車／足場、道路使用・歩道養生、営業中の車両移動を確認。</text>
+  <text x="30" y="251.5">6. 石綿含有建材（成形板・シーリング等）の事前調査結果を確認のうえ着手。撤去材は分別・積込・搬出・処分。</text>
+</g>
+
+<!-- ==================== 現調メモ ==================== -->
+<rect x="16" y="257" width="196" height="32" fill="none" stroke="#000" stroke-width="0.4"/>
+<line x1="16" y1="263" x2="212" y2="263" stroke="#000" stroke-width="0.4"/>
+<text x="18.5" y="261.5" font-size="2.6" font-weight="bold">現調メモ（実測・所見）</text>
 <g stroke="#000" stroke-width="0.15">
-  <line x1="222" y1="247" x2="276" y2="247"/><line x1="222" y1="253" x2="276" y2="253"/>
-  <line x1="222" y1="259" x2="276" y2="259"/><line x1="222" y1="265" x2="276" y2="265"/>
-  <line x1="222" y1="271" x2="276" y2="271"/><line x1="222" y1="277" x2="276" y2="277"/>
-  <line x1="222" y1="283" x2="276" y2="283"/>
+  <line x1="18" y1="270" x2="210" y2="270"/><line x1="18" y1="276" x2="210" y2="276"/>
+  <line x1="18" y1="282" x2="210" y2="282"/><line x1="18" y1="288" x2="210" y2="288"/>
 </g>
 
-<!-- ================= 表題欄 ================= -->
-<rect x="282" y="234" width="130" height="55" fill="none" stroke="#000" stroke-width="0.7"/>
-<g stroke="#000" stroke-width="0.35">
-  <line x1="282" y1="245" x2="412" y2="245"/>
-  <line x1="282" y1="255" x2="412" y2="255"/>
-  <line x1="282" y1="265" x2="412" y2="265"/>
-  <line x1="282" y1="274" x2="412" y2="274"/>
-  <line x1="282" y1="282" x2="412" y2="282"/>
-  <line x1="300" y1="245" x2="300" y2="274"/>
-  <line x1="347" y1="274" x2="347" y2="282"/>
-  <line x1="330" y1="282" x2="330" y2="289"/>
-  <line x1="370" y1="282" x2="370" y2="289"/>
+<!-- ==================== ② 上空図 ==================== -->
+<text x="222" y="19" font-size="3.8" font-weight="bold">② 上空図（上から見る）</text>
+<text x="298" y="19" font-size="2.6">S = NTS</text>
+<text x="316" y="26" font-size="2.6" text-anchor="middle">道　路　側</text>
+
+<!-- A -->
+<rect x="236" y="29" width="160" height="12" fill="#fff" stroke="none"/>
+<rect x="236" y="29" width="160" height="12" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
+<g font-size="3" text-anchor="middle">
+  <circle cx="316" cy="35" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="316" y="36.1">A</text>
 </g>
-<text x="347" y="241.5" font-size="4" font-weight="bold" text-anchor="middle">撤 去 範 囲 図 （現地調査用）</text>
+
+<!-- 前面帯：波板／CON／吹抜け -->
+<rect x="236" y="41" width="56" height="26" fill="#fff" stroke="none"/>
+<rect x="236" y="41" width="56" height="26" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
+<g stroke="#000" stroke-width="0.3" fill="none">
+  <path d="M240,47 q3,-2 6,0 t6,0 t6,0 t6,0 t6,0 t6,0 t6,0 t6,0"/>
+  <path d="M240,53 q3,-2 6,0 t6,0 t6,0 t6,0 t6,0 t6,0 t6,0 t6,0"/>
+</g>
+<text x="264" y="62" font-size="2.8" text-anchor="middle" stroke="#fff" stroke-width="1" paint-order="stroke" stroke-linejoin="round">波 板</text>
+
+<rect x="292" y="41" width="38" height="26" fill="#fff" stroke="#000" stroke-width="0.5" stroke-dasharray="2 1.2"/>
+<text x="311" y="53" font-size="3" text-anchor="middle">CON</text>
+<text x="311" y="58" font-size="2.1" text-anchor="middle">（撤去要否 要確認）</text>
+
+<rect x="330" y="41" width="66" height="26" fill="#fff" stroke="#000" stroke-width="0.4"/>
+<g stroke="#000" stroke-width="0.25">
+  <line x1="330" y1="41" x2="396" y2="67"/><line x1="396" y1="41" x2="330" y2="67"/>
+</g>
+<text x="363" y="55" font-size="2.8" text-anchor="middle" stroke="#fff" stroke-width="1.2" paint-order="stroke" stroke-linejoin="round">吹 抜 け</text>
+
+<!-- B：中段梁 -->
+<rect x="330" y="67" width="66" height="8" fill="#fff" stroke="none"/>
+<rect x="330" y="67" width="66" height="8" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
+<g font-size="3" text-anchor="middle">
+  <circle cx="363" cy="71" r="3.4" fill="#fff" stroke="#000" stroke-width="0.5"/><text x="363" y="72.1">B</text>
+</g>
+
+<!-- ルーバー部 -->
+<rect x="330" y="75" width="66" height="120" fill="#fff" stroke="none"/>
+<rect x="330" y="75" width="66" height="120" fill="url(#hatch)" stroke="#000" stroke-width="0.9"/>
+<g stroke="#000" stroke-width="0.35">
+  <line x1="330" y1="87" x2="396" y2="87"/><line x1="330" y1="99" x2="396" y2="99"/>
+  <line x1="330" y1="111" x2="396" y2="111"/><line x1="330" y1="123" x2="396" y2="123"/>
+  <line x1="330" y1="135" x2="396" y2="135"/><line x1="330" y1="147" x2="396" y2="147"/>
+  <line x1="330" y1="159" x2="396" y2="159"/><line x1="330" y1="171" x2="396" y2="171"/>
+  <line x1="330" y1="183" x2="396" y2="183"/>
+  <line x1="363" y1="75" x2="363" y2="195" stroke-width="0.5"/>
+</g>
+<text x="380" y="136" font-size="3" transform="rotate(-90 380 136)" text-anchor="middle" stroke="#fff" stroke-width="1.2" paint-order="stroke" stroke-linejoin="round">ル ー バ ー</text>
+
+<!-- 建屋 -->
+<rect x="236" y="67" width="94" height="128" fill="#fff" stroke="#000" stroke-width="0.6"/>
+<line x1="236" y1="131" x2="330" y2="131" stroke="#000" stroke-width="0.4"/>
+<g font-size="3.4" text-anchor="middle">
+  <text x="283" y="100">建 屋（既存・残置）</text>
+  <text x="283" y="166">建 屋（既存・残置）</text>
+</g>
+
+<!-- 寸法 -->
+<g stroke="#000" stroke-width="0.3" font-size="2.2" text-anchor="middle">
+  <line x1="236" y1="203" x2="292" y2="203"/><use href="#tick" x="236" y="203"/><use href="#tick" x="292" y="203"/>
+  <line x1="292" y1="203" x2="330" y2="203"/><use href="#tick" x="330" y="203"/>
+  <line x1="330" y1="203" x2="396" y2="203"/><use href="#tick" x="396" y="203"/>
+  <line x1="236" y1="196" x2="236" y2="205"/><line x1="292" y1="196" x2="292" y2="205"/>
+  <line x1="330" y1="196" x2="330" y2="205"/><line x1="396" y1="196" x2="396" y2="205"/>
+  <text x="264" y="201.6" stroke="none">波板 ______</text>
+  <text x="311" y="201.6" stroke="none">CON ______</text>
+  <text x="363" y="201.6" stroke="none">吹抜け ______</text>
+  <line x1="236" y1="211" x2="396" y2="211"/><use href="#tick" x="236" y="211"/><use href="#tick" x="396" y="211"/>
+  <line x1="236" y1="205" x2="236" y2="213"/><line x1="396" y1="205" x2="396" y2="213"/>
+  <text x="316" y="209.6" stroke="none">W ＝ ________（A・B 全長）</text>
+  <line x1="404" y1="75" x2="404" y2="195"/><use href="#tick" x="404" y="75"/><use href="#tick" x="404" y="195"/>
+  <text transform="rotate(-90 404 135)" x="404" y="135" stroke="none" dy="-1">D ＝ ______（ルーバー部 奥行）</text>
+  <line x1="230" y1="41" x2="230" y2="67"/><use href="#tick" x="230" y="41"/><use href="#tick" x="230" y="67"/>
+  <text transform="rotate(-90 230 54)" x="230" y="54" stroke="none" dy="-1">d ＝ ____</text>
+</g>
+<text x="222" y="219" font-size="2.2">※ 手描きスケッチ（上から）をもとに作図。各部の寸法・区分は現地実測により確定。</text>
+<text x="222" y="223.5" font-size="2.2">※ 吹抜け部は撤去なし。CON 部・ルーバー部の撤去要否は現地でお客様と確認のこと。</text>
+<text x="222" y="228" font-size="2.2">※ 波板部・ルーバー部は B（中段梁）と一体で撤去する想定。</text>
+
+<!-- ==================== B 内訳（数量記入） ==================== -->
+<rect x="220" y="232" width="58" height="57" fill="none" stroke="#000" stroke-width="0.4"/>
+<line x1="220" y1="238" x2="278" y2="238" stroke="#000" stroke-width="0.4"/>
+<text x="222.5" y="236.5" font-size="2.6" font-weight="bold">B 内訳（面積 記入欄）</text>
+<g font-size="2.3">
+  <text x="222.5" y="245">波板 　 ___ × ___ ＝ ___ ㎡</text>
+  <text x="222.5" y="253">CON 　 ___ × ___ ＝ ___ ㎡</text>
+  <text x="222.5" y="261">ルーバー ___ × ___ ＝ ___ ㎡</text>
+  <text x="222.5" y="269">吹抜け 　___ × ___ ＝ ___ ㎡</text>
+  <text x="222.5" y="277">B 梁 全長 ＝ ______ m</text>
+  <text x="222.5" y="285">A 梁 全長 ＝ ______ m</text>
+</g>
+<g stroke="#000" stroke-width="0.15">
+  <line x1="222" y1="247" x2="276" y2="247"/><line x1="222" y1="255" x2="276" y2="255"/>
+  <line x1="222" y1="263" x2="276" y2="263"/><line x1="222" y1="271" x2="276" y2="271"/>
+  <line x1="222" y1="279" x2="276" y2="279"/><line x1="222" y1="287" x2="276" y2="287"/>
+</g>
+
+<!-- ==================== 表題欄 ==================== -->
+<rect x="282" y="232" width="130" height="57" fill="none" stroke="#000" stroke-width="0.7"/>
+<g stroke="#000" stroke-width="0.35">
+  <line x1="282" y1="243" x2="412" y2="243"/>
+  <line x1="282" y1="253" x2="412" y2="253"/>
+  <line x1="282" y1="263" x2="412" y2="263"/>
+  <line x1="282" y1="273" x2="412" y2="273"/>
+  <line x1="282" y1="281" x2="412" y2="281"/>
+  <line x1="300" y1="243" x2="300" y2="273"/>
+  <line x1="347" y1="273" x2="347" y2="281"/>
+  <line x1="330" y1="281" x2="330" y2="289"/>
+  <line x1="370" y1="281" x2="370" y2="289"/>
+</g>
+<text x="347" y="239.5" font-size="4" font-weight="bold" text-anchor="middle">撤 去 範 囲 図 （現地調査用）</text>
 <g font-size="2.4">
-  <text x="284" y="251.5">工事名</text><text x="302" y="251.5">車寄せ サイン梁・中段梁・採光屋根 撤去工事（仮称）</text>
-  <text x="284" y="261.5">所在地</text><text x="302" y="261.5">神奈川県横浜市都筑区茅ケ崎南 3-23-5</text>
-  <text x="284" y="271.5">建　物</text><text x="302" y="271.5">信和ホームズ㈱ 社屋 車寄せ（写真サイン表記による）</text>
-  <text x="284" y="279.5">現調日 2026/09/02（水）9:00</text><text x="349" y="279.5">作成日 2026/09/01</text>
-  <text x="284" y="287">縮尺 NTS</text><text x="332" y="287">用紙 A3</text><text x="372" y="287">図番 01（rev.1）</text>
+  <text x="284" y="249.5">工事名</text><text x="302" y="249.5">車寄せ サイン梁・中段梁＋屋根 撤去工事（仮称）</text>
+  <text x="284" y="259.5">所在地</text><text x="302" y="259.5">神奈川県横浜市都筑区茅ケ崎南 3-23-5</text>
+  <text x="284" y="269.5">建　物</text><text x="302" y="269.5">信和ホームズ㈱ 社屋 車寄せ（写真サイン表記による）</text>
+  <text x="284" y="278.5">現調日 2026/09/02（水）9:00</text><text x="349" y="278.5">作成日 2026/09/01</text>
+  <text x="284" y="286.5">縮尺 NTS</text><text x="332" y="286.5">用紙 A3</text><text x="372" y="286.5">図番 01（rev.2）</text>
 </g>
 </svg>
