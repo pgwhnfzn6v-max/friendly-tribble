@@ -1,0 +1,354 @@
+<title>現調メモから動画まで</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#f5f6f4; --sheet:#ffffff; --band:#eaece9; --sunk:#e0e3df;
+    --ink:#191b19; --ink-2:#454a46; --ink-3:#71786f;
+    --rule:#d2d6cf; --rule-hard:#adb4a8;
+    --blue:#1d4f8c;   /* 青書き＝実測・聞取り */
+    --blue-bg:#e3ebf5;
+    --red:#b0362a;    /* 赤書き＝未確認・注意 */
+    --red-bg:#f4e3e0;
+    --green:#33684a; --green-bg:#e2eee6;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#12140f; --sheet:#191c17; --band:#20241d; --sunk:#0f120d;
+      --ink:#e9ece6; --ink-2:#b2b9ac; --ink-3:#828b7d;
+      --rule:#2c3128; --rule-hard:#3d4437;
+      --blue:#8db4e2; --blue-bg:#16233a;
+      --red:#e0917f; --red-bg:#2e1c19;
+      --green:#7cc094; --green-bg:#17281d;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12140f; --sheet:#191c17; --band:#20241d; --sunk:#0f120d;
+    --ink:#e9ece6; --ink-2:#b2b9ac; --ink-3:#828b7d;
+    --rule:#2c3128; --rule-hard:#3d4437;
+    --blue:#8db4e2; --blue-bg:#16233a;
+    --red:#e0917f; --red-bg:#2e1c19;
+    --green:#7cc094; --green-bg:#17281d;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans JP","Hiragino Sans",system-ui,sans-serif;
+    font-size:16px; line-height:1.9; padding-bottom:5rem;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{width:min(100% - 2.4rem,1060px); margin-inline:auto}
+  p,li{max-width:38em}
+  .m{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+
+  /* ---- 表題欄 ---- */
+  header.tb{border-bottom:2px solid var(--ink); padding:3rem 0 1.6rem; margin-bottom:2.4rem}
+  .stamp{
+    font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.16em;
+    color:var(--blue); display:flex; gap:1.2rem; flex-wrap:wrap; margin:0 0 1.2rem;
+  }
+  .stamp b{color:var(--ink-3); font-weight:400}
+  h1{
+    font-family:"Shippori Mincho B1",serif; font-weight:700;
+    font-size:clamp(2rem,5vw,3rem); line-height:1.3; margin:0 0 1rem;
+    text-wrap:balance; max-width:14em; letter-spacing:.01em;
+  }
+  .stand{color:var(--ink-2); margin:0 0 1.9rem; max-width:37em}
+  .stand b{color:var(--ink)}
+
+  .outs{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule)}
+  .out{background:var(--sheet); padding:.85rem .95rem}
+  .out .l{font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.14em; color:var(--blue); display:block; margin-bottom:.3rem}
+  .out .t{font-weight:700; font-size:.95rem; display:block}
+  .out .d{font-size:.75rem; color:var(--ink-3); line-height:1.6; display:block; margin-top:.2rem}
+
+  /* ---- 節 ---- */
+  section{margin:3.8rem 0 0}
+  .sh{display:flex; gap:.9rem; align-items:baseline; border-top:1px solid var(--rule-hard); padding-top:.8rem; margin-bottom:1.5rem}
+  .sh .fig{font-family:"IBM Plex Mono",monospace; font-size:.7rem; font-weight:600; letter-spacing:.1em; color:var(--blue); flex:none; padding-top:.4rem; white-space:nowrap}
+  h2{font-family:"Shippori Mincho B1",serif; font-weight:700; font-size:clamp(1.35rem,2.8vw,1.7rem); margin:0; line-height:1.45; text-wrap:balance}
+  h3{font-size:1rem; font-weight:700; margin:2rem 0 .55rem}
+  h4{font-size:.92rem; font-weight:700; margin:1.5rem 0 .4rem; color:var(--ink-2)}
+  p{margin:0 0 1rem}
+  a{color:var(--blue)}
+  a:focus-visible{outline:2px solid var(--blue); outline-offset:3px}
+  .lede{color:var(--ink-2); border-left:3px solid var(--blue); padding-left:1rem; margin-bottom:1.6rem}
+
+  /* ---- 流れ ---- */
+  .flow{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:.7rem; margin:1.3rem 0}
+  .fs{background:var(--sheet); border:1px solid var(--rule); border-top:3px solid var(--blue); padding:.8rem .85rem}
+  .fs .n{font-family:"IBM Plex Mono",monospace; font-size:.62rem; letter-spacing:.12em; color:var(--ink-3); display:block}
+  .fs .t{font-weight:700; font-size:.9rem; display:block; margin:.15rem 0 .2rem}
+  .fs .d{font-size:.76rem; color:var(--ink-3); line-height:1.6; display:block}
+
+  /* ---- 原稿（記事＝台本） ---- */
+  .ms{background:var(--sheet); border:1px solid var(--rule); padding:1.8rem 1.6rem 2rem; margin:1.5rem 0}
+  .ms .pr{font-size:.76rem; color:var(--ink-3); border:1px solid var(--rule); background:var(--band); padding:.6rem .8rem; margin:0 0 1.6rem; max-width:none; line-height:1.75}
+  .ms h4.blkh{font-family:"Shippori Mincho B1",serif; font-size:1.12rem; font-weight:700; color:var(--ink); margin:1.9rem 0 .6rem}
+  .ms .hook{font-family:"Shippori Mincho B1",serif; font-size:1.22rem; line-height:1.75; font-weight:500; margin:0 0 1.5rem; max-width:32em}
+  .ms .hook b{color:var(--red)}
+  .blk{display:grid; grid-template-columns:1fr; gap:.4rem 0; margin-bottom:.4rem}
+  .blk>*{grid-column:1}
+  .cue{
+    font-family:"IBM Plex Mono",monospace; font-size:.72rem; line-height:1.7;
+    color:var(--blue); background:var(--blue-bg); border-left:2px solid var(--blue);
+    padding:.5rem .7rem; margin:.2rem 0 1.4rem; max-width:none;
+  }
+  .cue b{font-weight:600; letter-spacing:.08em; display:block; font-size:.62rem; opacity:.8}
+  @media(min-width:940px){
+    .blk{grid-template-columns:minmax(0,1fr) 216px; column-gap:1.8rem}
+    .blk>*{grid-column:1}
+    .blk .cue{grid-column:2; grid-row:span 12; align-self:start; margin:.3rem 0 0; background:transparent; border-left:1px solid var(--blue)}
+  }
+
+  /* ---- 表 ---- */
+  .sc{overflow-x:auto; border:1px solid var(--rule); background:var(--sheet); margin:1.2rem 0}
+  table{border-collapse:collapse; width:100%; min-width:520px; font-size:.85rem}
+  th,td{padding:.55rem .75rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--rule)}
+  thead th{background:var(--band); font-size:.72rem; letter-spacing:.05em; color:var(--ink-2); white-space:nowrap; border-bottom:1px solid var(--rule-hard)}
+  tbody tr:last-child td{border-bottom:none}
+  td.n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+  td.sym{font-family:"IBM Plex Mono",monospace; color:var(--blue); font-weight:600}
+  tr.warn td{background:var(--red-bg)}
+  tr.tot td{background:var(--band); font-weight:700}
+  .meas{color:var(--blue); font-weight:700}
+  .assum{color:var(--red); font-weight:700}
+  caption{caption-side:bottom; text-align:left; font-size:.75rem; color:var(--ink-3); padding:.6rem .8rem; line-height:1.7}
+
+  pre{background:var(--sunk); border:1px solid var(--rule); padding:.9rem 1rem; overflow-x:auto; font-family:"IBM Plex Mono",monospace; font-size:.78rem; line-height:1.8; margin:1.1rem 0}
+  code{font-family:"IBM Plex Mono",monospace; font-size:.85em; background:var(--band); padding:.1em .35em}
+  pre code{background:none; padding:0; font-size:1em}
+
+  /* ---- 投稿カード ---- */
+  .posts{display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:1.1rem; margin:1.4rem 0}
+  .post{background:var(--sheet); border:1px solid var(--rule); padding:1rem 1.1rem 1.2rem}
+  .post .hd{font-family:"IBM Plex Mono",monospace; font-size:.66rem; letter-spacing:.12em; color:var(--blue); margin-bottom:.6rem}
+  .post .body{font-size:.85rem; line-height:1.85; white-space:pre-wrap; margin:0; max-width:none}
+  .post .tag{font-size:.76rem; color:var(--ink-3); margin-top:.7rem; max-width:none}
+
+  /* ---- チェック ---- */
+  .chk{border:1px solid var(--rule); background:var(--sheet); margin:1.3rem 0}
+  .chk .row{display:grid; grid-template-columns:auto 1fr; gap:.85rem; padding:.85rem 1rem; border-bottom:1px solid var(--rule); align-items:start}
+  .chk .row:last-child{border-bottom:none}
+  .chk .box{width:1.05rem; height:1.05rem; border:2px solid var(--rule-hard); margin-top:.35rem; flex:none}
+  .chk .t{font-weight:700; font-size:.9rem; display:block}
+  .chk .d{font-size:.82rem; color:var(--ink-2); line-height:1.75; display:block; margin-top:.15rem; max-width:40em}
+  .chk .row.hot{background:var(--red-bg)}
+  .chk .row.hot .box{border-color:var(--red)}
+  .chk .row.hot .t{color:var(--red)}
+
+  .note{background:var(--sunk); border:1px solid var(--rule); padding:1rem 1.15rem; margin:1.6rem 0; font-size:.88rem}
+  .note p{margin:0; max-width:none; color:var(--ink-2)}
+  .note b{color:var(--ink)}
+  .note.stop{background:var(--red-bg); border-color:var(--red)}
+  .note.stop b{color:var(--red)}
+
+  .files{font-family:"IBM Plex Mono",monospace; font-size:.8rem; line-height:2; background:var(--sunk); border:1px solid var(--rule); padding:1rem 1.2rem; overflow-x:auto}
+  .files .c{color:var(--ink-3)}
+  footer{margin-top:4rem; border-top:1px solid var(--rule-hard); padding-top:1.4rem; font-size:.8rem; color:var(--ink-3); line-height:1.85}
+  footer p{max-width:44em}
+</style>
+
+<header class="tb">
+  <div class="wrap">
+    <p class="stamp"><span>CONTENT KIT</span><b>作成 2026-09-05</b><b>素材：2026/09/02 現地調査</b><b>状態：draft</b></p>
+    <h1>現調メモから<br>動画まで</h1>
+    <p class="stand">1件の解体案件から、<b>記事・長尺動画・ショート・SNS投稿を1つのファイルで作る</b>仕組みと、第1本目の完成原稿です。記事の各ブロックがそのまま動画の1カットになるよう書いてあるので、台本への書き直しは発生しません。</p>
+    <div class="outs">
+      <div class="out"><span class="l">OUT 01</span><span class="t">記事本文</span><span class="d">自サイト・note／2,500〜3,500字</span></div>
+      <div class="out"><span class="l">OUT 02</span><span class="t">長尺動画</span><span class="d">YouTube／記事の読み上げ 6〜9分</span></div>
+      <div class="out"><span class="l">OUT 03</span><span class="t">ショート</span><span class="d">Shorts・TikTok・Reels／55〜70秒</span></div>
+      <div class="out"><span class="l">OUT 04</span><span class="t">SNS投稿</span><span class="d">X・Instagram／各1本</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="sh"><span class="fig">図 01</span><h2>1件の案件から4つの出力までの流れ</h2></div>
+  <p class="lede">現場に行く回数は増やしません。すでに撮っている写真と、すでに作っている見積書が素材です。追加で発生するのは、原稿を書く時間と、画面を録画する時間だけ。</p>
+  <div class="flow">
+    <div class="fs"><span class="n">STEP 1</span><span class="t">案件を選ぶ</span><span class="d">判断に迷った箇所がある案件ほど記事になる。順調だった現場は書くことがない</span></div>
+    <div class="fs"><span class="n">STEP 2</span><span class="t">原稿を書く</span><span class="d">本編3〜5ブロック。各ブロック末尾に【画面】で撮影指示を書く</span></div>
+    <div class="fs"><span class="n">STEP 3</span><span class="t">公開前チェック</span><span class="d">6項目。匿名化・金額・法令・数値・PR表記・体験の実在（図03）</span></div>
+    <div class="fs"><span class="n">STEP 4</span><span class="t">素材を撮る</span><span class="d">【画面】の指示どおりに画面録画。現場写真は既存分を流用</span></div>
+    <div class="fs"><span class="n">STEP 5</span><span class="t">出す</span><span class="d">記事を公開 → 読み上げて長尺 → 1ポイント抜いてショート → SNSへ</span></div>
+  </div>
+  <div class="note">
+    <p><b>ショートは記事の要約ではありません。</b>本編ブロックのうち、一番驚きがある1つだけを切り出します。全体をまとめると必ず薄くなる。冒頭3秒で「これは自分の話だ」と思わせられなければ、残り57秒は再生されません。だから<b>最初のカットは現場写真</b>にします。図やテロップから始めない。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 02</span><h2>第1本｜現調メモの数字9個から、21項目の見積内訳ができるまで</h2></div>
+  <p class="lede">右の枠が【画面】＝撮影・編集の指示です。記事として読みながら、そのまま台本として使えます。以下が完成原稿の全文。</p>
+
+  <article class="ms">
+    <p class="pr">※この記事には広告（PR）を含みます。<br>※実在の案件をもとにしていますが、発注者名・所在地・関係者名は伏せ、寸法と工種のみを公開しています。単価・金額は掲載していません。</p>
+
+    <p class="hook">現地調査でメモしてきた数字は、たった<b>9個</b>でした。<br>そこから21項目の見積内訳書ができるまでを、全部見せます。</p>
+
+    <p>横浜市内の社屋、車寄せの撤去工事です。前方のパネル、後方のパネル、奥のルーバーとその下地を撤去して、鉄骨あらわしの状態にする。営業中の建物なので、駐車車両を動かしながら施工します。道路側は高所作業車、敷地内はローリングタワー。</p>
+    <p>現調は9時から、立会いは元請と発注者側の3名。持って帰ってきたのは、図面に赤と青で書き込んだ1枚のPDFだけです。</p>
+
+    <div class="blk">
+      <h4 class="blkh">実測は9個、聞取りは5つ</h4>
+      <p>書き込みから拾えた数字を並べると、これだけでした。</p>
+      <div class="sc"><table>
+        <thead><tr><th>記号</th><th>項目</th><th>値</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">m1</td><td>前方パネル 全長</td><td class="n meas">19.5 m</td></tr>
+          <tr><td class="sym">m2</td><td>前方パネル 高さ</td><td class="n meas">1.0 m</td></tr>
+          <tr><td class="sym">m3</td><td>前方パネル 下部見切り</td><td class="n meas">0.3 m</td></tr>
+          <tr><td class="sym">m4</td><td>後方パネル 全長</td><td class="n meas">14.0 m</td></tr>
+          <tr class="warn"><td class="sym">m5</td><td>後方パネル 高さ</td><td class="n assum">未測定（1.0 と仮定）</td></tr>
+          <tr><td class="sym">m6</td><td>前面帯 奥行</td><td class="n meas">2.1 m</td></tr>
+          <tr><td class="sym">m7</td><td>右端部 幅</td><td class="n meas">4.8 m</td></tr>
+          <tr><td class="sym">m8</td><td>ルーバー部 奥行</td><td class="n meas">5.8 m</td></tr>
+          <tr class="warn"><td class="sym">m9</td><td>ルーバー部 幅</td><td class="n assum">未測定（4.8 と仮定）</td></tr>
+        </tbody>
+        <caption>青＝実測値／赤＝未測定の仮定値。この色分けが、記事全体の主題になります。</caption>
+      </table></div>
+      <p>数字以外には、聞取りで5つ。パネルの材質はケイカル板、下地は鉄骨アングル、撤去後は鉄骨あらわし、前面帯の左側はポリカ波板で撤去範囲外、そして「ケイカル15ヶ」というメモ。</p>
+      <p><b>9個の数字のうち、2個は測れていません。</b>高所で手が届かなかった箇所です。この2つをどう扱うかが、実はこの記事の本題になります。</p>
+      <p class="cue"><b>【画面】</b>書き込みPDFの実測部分をアップ（社名・住所部分はマスク）</p>
+    </div>
+
+    <div class="blk">
+      <h4 class="blkh">数字ではなく、式のまま持たせる</h4>
+      <p>ここでやったことは単純です。実測値をそのまま見積書に転記するのではなく、<b>「実測値」と「計算式」を別のシートに分けて持たせました。</b></p>
+      <pre><code>Q1  前方パネル 撤去面積   = m1 × m2   = 19.5 × 1.0  = 19.5 ㎡
+Q2  下部見切り 撤去延長   = m1                      = 19.5 m
+Q3  後方パネル 撤去面積   = m4 × m5   = 14.0 × 1.0  = 14.0 ㎡
+Q4  ルーバー 撤去面積     = m8 × m9   = 5.8 × 4.8   = 27.84 ㎡
+Q5  ルーバー下地 撤去     = Q4 と同数量             = 27.84 ㎡
+Q6  取合いシール 先行撤去 = (m1+m2)×2 + (m4+m5)×2   = 71 m
+Q7  撤去材 合計（概算）   = Q1 + Q3 + Q4            = 61.34 ㎡</code></pre>
+      <p>見積内訳書の数量欄には、この計算結果をコピーせず、<b>セル参照で紐づけました。</b></p>
+      <p>こうすると何が起きるか。後日、高所作業車に乗って m5（後方パネルの高さ）を実測して 1.2m だったとします。数量根拠シートの1セルを 1.0 から 1.2 に書き換えるだけで、Q3 が 16.8 ㎡ に変わり、Q6 と Q7 が変わり、見積内訳の該当行の金額まで自動で更新される。<b>転記ミスの入る余地がありません。</b></p>
+      <p>生成AIに手伝ってもらったのは、この計算式の組み立てと、シート間の参照の張り方です。数字を入力する作業ではなく、構造を作る作業のほうを任せました。</p>
+      <p class="cue"><b>【画面】</b>Excel の数量根拠シートで m5 を 1.0 → 1.2 に書き換え、見積内訳の数量が連動して変わる様子を画面録画</p>
+    </div>
+
+    <div class="blk">
+      <h4 class="blkh">AIが一番役に立ったのは、「抜けの指摘」だった</h4>
+      <p>21項目の内訳は、5つの工種に分けました。仮設5項目、事前調査2項目、撤去8項目、運搬・処分4項目、諸経費2項目です。</p>
+      <p>正直なところ、撤去そのものの項目は現調の時点で頭に入っています。<b>AIが効いたのは、その周りにぶら下がる項目のほうでした。</b></p>
+      <p>「営業中の建物」と条件を伝えたら、駐車車両の移動と場内調整が項目として出てきた。「道路側は高所作業車」と伝えたら、道路使用許可の申請と歩行者誘導員が出てきた。どちらも見積に入れ忘れると、後から自腹になる類の費用です。</p>
+      <p>さらに、<b>本見積に含めない工事の一覧も同時に作らせました。</b>CON部の撤去、門型の丸柱・角柱、ポリカ波板、電気設備の切離し、撤去後の防錆塗装、雨仕舞いの復旧、夜間・休日の割増。「含まない」を明記しておくと、後の追加交渉が揉めません。</p>
+      <p>条件を並べれば、それにぶら下がる費用を漏れなく展開する。この作業は、経験の多寡ではなく網羅性の問題なので、機械のほうが向いています。</p>
+      <p class="cue"><b>【画面】</b>内訳書の工種Ⅰ〜Ⅴを上から下へスクロール。「別途工事」欄で一度止める</p>
+    </div>
+
+    <div class="blk">
+      <h4 class="blkh">AIに決めさせてはいけなかった、たった1行</h4>
+      <p>一番の学びは、うまくいった話ではありません。</p>
+      <p>現調メモに「ケイカル15ヶ」という書込みがありました。<b>これが枚数なのか、取合い箇所の数なのか、その場で確認していなかった。</b></p>
+      <p>もしAIに「文脈的にパネル枚数と解釈して数量を出して」と指示していたら、それらしい数量が出てきていたはずです。そしてその数字は、見積書の中では他の実測値と何も区別がつかない形で並びます。<b>根拠のない数字が、根拠のある数字の顔をして混ざる。</b>これが現場で一番怖い。</p>
+      <p>なので、この行は数量を埋めず、確認事項として8項目のリストに残しました。後方パネルの高さ、ルーバー部の幅、「ケイカル15ヶ」の意味、前方パネル「一部4面」の位置、取合いシールの実延長、CON部の撤去要否、作業日と駐車場の使用可否、撤去材の有価売却の可否。</p>
+      <p><b>わからないことを、わからないまま見積書に載せておく。</b>これができるのは人間だけです。AIは訊けば必ず何か答えを返してくるので、放っておくと空欄が埋まってしまう。</p>
+      <p class="cue"><b>【画面】</b>確認事項リストを表示。「ケイカル15ヶ」の行で止めて拡大</p>
+    </div>
+
+    <div class="blk">
+      <h4 class="blkh">結論</h4>
+      <p>生成AIに任せてよかったのは、<b>構造を作る作業</b>でした。計算式の組み立て、シート間の参照、条件から漏れる費用の展開、含まない工事の列挙。ここは速いし、抜けが減ります。</p>
+      <p>任せてはいけなかったのは、<b>わからない値を埋める作業</b>です。9個の実測値のうち2個は未測定で、聞取りメモには意味の確定しない単語が1つありました。この3つを「仮定」「未確認」と明示したまま見積書に載せられるかどうかが、実務で使える見積書と、それらしいだけの見積書の分かれ目になります。</p>
+      <p>現調メモの数字9個から21項目まで、作業時間はおよそ2時間でした。手で組んでいた頃の半日仕事と比べれば速い。ただし短縮できたのは<b>組み立ての時間だけ</b>で、確認事項を潰す時間は1分も減っていません。</p>
+      <p class="cue"><b>【画面】</b>完成した内訳書の全景 → 現場写真（着工前）にフェード</p>
+    </div>
+  </article>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 03</span><h2>ショート台本（60秒・縦）</h2></div>
+  <p class="lede">本編4ブロックのうち、抜き出したのは「式のまま持たせる」1点だけ。m5 を書き換えて下流が動く10秒が、この動画の全部です。</p>
+  <div class="sc"><table>
+    <thead><tr><th>秒</th><th>読み上げ</th><th>画面</th></tr></thead>
+    <tbody>
+      <tr><td class="n">0–3</td><td>「現調で測ってきた数字、9個だけです」</td><td>現場写真（車寄せ全景）＋大テロップ「実測9個」</td></tr>
+      <tr><td class="n">3–12</td><td>「横浜の社屋、車寄せの撤去。パネルとルーバーを外して鉄骨あらわしにする工事です」</td><td>書き込み図面をゆっくりパン</td></tr>
+      <tr><td class="n">12–30</td><td>「この9個から、21項目の見積内訳を作りました。ポイントは、数字を転記しないこと。実測値と計算式を別シートに分けて、参照で繋ぐ」</td><td>Excel 画面録画：数量根拠 → 見積内訳へジャンプ</td></tr>
+      <tr class="tot"><td class="n">30–45</td><td>「後で高さを測り直したら、1セル書き換えるだけ。面積も、シール延長も、金額も全部連動します」</td><td>m5 を 1.0 → 1.2 に変更、下流の数字が動く瞬間をアップ（最重要カット）</td></tr>
+      <tr><td class="n">45–57</td><td>「ただし、測れてない値は絶対に埋めない。AIは訊けば必ず答えるので、空欄が勝手に埋まる。それが一番怖い」</td><td>確認事項リスト、「未測定」の2行を赤枠</td></tr>
+      <tr><td class="n">57–60</td><td>「詳しい手順はプロフィールから」</td><td>完成した内訳書の全景</td></tr>
+    </tbody>
+    <caption>フックはA/Bで試す。A「現調で測ってきた数字、9個だけです」／B「見積書に、根拠のない数字が1個だけ混ざってました」</caption>
+  </table></div>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 04</span><h2>SNS投稿文</h2></div>
+  <div class="posts">
+    <div class="post">
+      <div class="hd">X ／ 140字前後・リンクは末尾</div>
+      <p class="body">現調メモの数字9個から、解体の見積内訳21項目を組んだ記録を書きました。
+
+実測値と計算式を別シートで持って参照で繋ぐと、後から高さを測り直しても1セル書き換えるだけで全部連動する。
+
+ただし未測定の値は埋めない。AIは訊けば必ず答えるので放っておくと空欄が埋まります。</p>
+      <p class="tag">連投しない。1日1投稿まで。</p>
+    </div>
+    <div class="post">
+      <div class="hd">INSTAGRAM ／ 1枚目テロップ＋本文</div>
+      <p class="body">【1枚目】現調メモ 数字9個 → 見積内訳 21項目
+
+現地調査で測ってきたのは9個の数字だけ。
+そこから21項目の内訳書ができるまでを記事にしました。
+
+やったこと
+・実測値と計算式を別シートに分ける
+・見積の数量欄はセル参照で繋ぐ
+・条件から漏れる費用をAIに展開させる
+・含まない工事を先に列挙しておく
+
+やらなかったこと
+・測れていない値を埋めること
+
+9個のうち2個は未測定のままです。</p>
+      <p class="tag">#解体工事 #建設業 #積算 #見積 #生成AI</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 05</span><h2>公開前チェック（毎回・例外なし）</h2></div>
+  <p class="lede">自動化パイプラインで人が手を動かすのは、ここだけです。この6項目を飛ばすと、仕組みがそのまま事故製造機になります。</p>
+  <div class="chk">
+    <div class="row hot"><span class="box"></span><span><span class="t">1. 匿名化</span><span class="d">発注者・元請の社名、現場の住所・地番、立会者の実名と役職、社名入りサインが写った写真。<b>この4つはいかなる形でも公開しない。</b>公開してよいのは寸法・数量・工種・工法・判断の過程だけで、記事の価値はそこにしかない。匿名化しても失われるものは何もない。</span></span></div>
+    <div class="row"><span class="box"></span><span><span class="t">2. 金額</span><span class="d">単価・金額は原則載せない。載せる場合は構成比（%）か帯（〜50万／50〜100万）に置き換える。</span></span></div>
+    <div class="row"><span class="box"></span><span><span class="t">3. 法令に関わる記述</span><span class="d">石綿、道路使用許可、廃棄物の区分。断定しない。「レベル3に該当する場合は」「分析結果により区分する」と書く。判断の主体は常に有資格者。</span></span></div>
+    <div class="row"><span class="box"></span><span><span class="t">4. 数値の裏取り</span><span class="d">記事に出る寸法・数量を数量根拠シートと突き合わせる。<b>仮定値は記事でも必ず「仮定」と明記する。</b>記事の中で仮定が既成事実になるのが、この種のコンテンツで最も起きやすい事故。</span></span></div>
+    <div class="row"><span class="box"></span><span><span class="t">5. PR表記</span><span class="d">アフィリエイトリンクを含むなら冒頭に「PR」。動画は概要欄と画面内テロップの両方。景品表示法のステマ規制（2023年10月施行）の対象。</span></span></div>
+    <div class="row"><span class="box"></span><span><span class="t">6. 体験の実在</span><span class="d">「使ってみた」と書けるのは自分の案件で実際に使ったものだけ。AIに体験談を生成させない。ステマ規制とGoogleのスパムポリシーの両方に直撃する。</span></span></div>
+  </div>
+  <div class="note stop">
+    <p><b>素材ファイルには実名が入っています。</b>見積書には発注者の社名、所在地、立会者3名の氏名と役職が記載されています。記事側では既に伏せてありますが、<b>画面録画をするときが一番危ない。</b>Excel の上部（工事名・工事場所・現地調査の行）がそのまま映ります。録画前に該当行を非表示にするか、別名の練習用ファイルを作って録るのが確実です。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 06</span><h2>いま出来ているもの</h2></div>
+  <div class="files"><span class="c"># リポジトリ content/ 以下</span>
+content/
+├── README.md      <span class="c">運用ルール・公開前チェック・収益導線の対応表</span>
+├── FORMAT.md      <span class="c">記事＝台本 兼用フォーマットの仕様</span>
+├── kit.html       <span class="c">このページ</span>
+└── articles/
+    ├── 01-estimate-from-field-notes.md   <span class="c">現調メモ9個 → 21項目（本ページ掲載）</span>
+    ├── 02-asbestos-document-boundary.md  <span class="c">石綿の書類、任せていい範囲とダメな範囲</span>
+    └── 03-assumed-values.md              <span class="c">未測定2箇所を、未測定のまま運用する</span></div>
+  <p>各 <code>.md</code> には、記事本文・ショート台本・SNS投稿文・撮影ショットリストが揃っています。frontmatter の <code>checked:</code> 6項目が全て <code>true</code> になったら <code>status: published</code> にする運用です。</p>
+  <h3>3本の並び順には理由があります</h3>
+  <p>01 は「AIで速くなった」話、02 は「AIに任せない線引き」の話、03 は「AIが埋めてしまう空欄」の話。<b>読み進めるほど慎重になる順番</b>にしてあります。同業者に向けた発信で最初に信頼されるのは、うまくいった話ではなく、危ないところを知っている人だからです。</p>
+</section>
+
+<footer>
+  <p>素材：2026年9月2日 現地調査の実測書込みおよび見積内訳（21項目・5工種）。本ページに掲載した寸法・数量は実データですが、発注者名・所在地・関係者名は伏せています。単価・金額は素材ファイル上も未入力のため、金額に関する記載は一切ありません。</p>
+  <p>石綿に関する記述は、法令の適用可否・届出要否の判断を代替するものではありません。実務では必ず有資格者および所轄官庁に確認してください。</p>
+</footer>
+
+</main>
