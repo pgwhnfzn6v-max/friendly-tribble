@@ -1,0 +1,416 @@
+<title>現調から請求まで</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#f5f6f4; --sheet:#ffffff; --band:#eaece9; --sunk:#e0e3df;
+    --ink:#191b19; --ink-2:#454a46; --ink-3:#71786f;
+    --rule:#d2d6cf; --rule-hard:#adb4a8;
+    --blue:#1d4f8c; --blue-bg:#e3ebf5;
+    --red:#b0362a; --red-bg:#f4e3e0;
+    --green:#33684a; --green-bg:#e2eee6;
+    --amber:#8a6410; --amber-bg:#f2ead6;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --paper:#12140f; --sheet:#191c17; --band:#20241d; --sunk:#0f120d;
+    --ink:#e9ece6; --ink-2:#b2b9ac; --ink-3:#828b7d;
+    --rule:#2c3128; --rule-hard:#3d4437;
+    --blue:#8db4e2; --blue-bg:#16233a;
+    --red:#e0917f; --red-bg:#2e1c19;
+    --green:#7cc094; --green-bg:#17281d;
+    --amber:#d8b062; --amber-bg:#2a2315;
+  }}
+  :root[data-theme="dark"]{
+    --paper:#12140f; --sheet:#191c17; --band:#20241d; --sunk:#0f120d;
+    --ink:#e9ece6; --ink-2:#b2b9ac; --ink-3:#828b7d;
+    --rule:#2c3128; --rule-hard:#3d4437;
+    --blue:#8db4e2; --blue-bg:#16233a;
+    --red:#e0917f; --red-bg:#2e1c19;
+    --green:#7cc094; --green-bg:#17281d;
+    --amber:#d8b062; --amber-bg:#2a2315;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans JP","Hiragino Sans",system-ui,sans-serif;
+    font-size:16px; line-height:1.9; padding-bottom:5rem; -webkit-font-smoothing:antialiased}
+  .wrap{width:min(100% - 2.4rem,1080px); margin-inline:auto}
+  p,li{max-width:38em}
+  header.tb{border-bottom:2px solid var(--ink); padding:3rem 0 1.6rem; margin-bottom:2.4rem}
+  .stamp{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.16em;
+    color:var(--blue); display:flex; gap:1.2rem; flex-wrap:wrap; margin:0 0 1.2rem}
+  .stamp b{color:var(--ink-3); font-weight:400}
+  h1{font-family:"Shippori Mincho B1",serif; font-weight:700;
+    font-size:clamp(2rem,5vw,3rem); line-height:1.3; margin:0 0 1rem; text-wrap:balance; max-width:13em}
+  .stand{color:var(--ink-2); margin:0 0 1.9rem; max-width:37em}
+  .stand b{color:var(--ink)}
+  .tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule)}
+  .ti{background:var(--sheet); padding:.9rem 1rem}
+  .ti .n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:1.5rem; font-weight:600; line-height:1.2; display:block}
+  .ti .k{font-size:.75rem; color:var(--ink-3); line-height:1.6; display:block; margin-top:.3rem}
+  .ti.go .n{color:var(--green)} .ti.hot .n{color:var(--red)}
+  section{margin:3.8rem 0 0}
+  .sh{display:flex; gap:.9rem; align-items:baseline; border-top:1px solid var(--rule-hard); padding-top:.8rem; margin-bottom:1.4rem}
+  .sh .fig{font-family:"IBM Plex Mono",monospace; font-size:.7rem; font-weight:600; letter-spacing:.1em; color:var(--blue); flex:none; padding-top:.4rem; white-space:nowrap}
+  h2{font-family:"Shippori Mincho B1",serif; font-weight:700; font-size:clamp(1.35rem,2.8vw,1.7rem); margin:0; line-height:1.45; text-wrap:balance}
+  h4{font-size:.95rem; font-weight:700; margin:1.7rem 0 .5rem}
+  p{margin:0 0 1rem}
+  a{color:var(--blue)}
+  a:focus-visible{outline:2px solid var(--blue); outline-offset:3px}
+  .lede{color:var(--ink-2); border-left:3px solid var(--blue); padding-left:1rem; margin-bottom:1.6rem}
+  code{font-family:"IBM Plex Mono",monospace; font-size:.85em; background:var(--band); padding:.1em .35em}
+
+  /* 凡例 */
+  .keys{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:.8rem; margin:1.3rem 0}
+  .key{background:var(--sheet); border:1px solid var(--rule); padding:.8rem .9rem}
+  .key .m{font-family:"IBM Plex Mono",monospace; font-size:1.1rem; font-weight:600; display:inline-block; width:1.6rem}
+  .key .t{font-weight:700; font-size:.88rem}
+  .key .d{font-size:.78rem; color:var(--ink-3); line-height:1.65; display:block; margin-top:.3rem}
+  .key .c{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--ink-3); float:right}
+  .key.a{border-left:3px solid var(--green)} .key.a .m{color:var(--green)}
+  .key.b{border-left:3px solid var(--blue)} .key.b .m{color:var(--blue)}
+  .key.c2{border-left:3px solid var(--amber)} .key.c2 .m{color:var(--amber)}
+  .key.d{border-left:3px solid var(--red)} .key.d .m{color:var(--red)}
+
+  /* フェーズ表 */
+  .ph{margin:1.8rem 0 2.4rem}
+  .phh{display:flex; align-items:baseline; gap:.7rem; border-bottom:1px solid var(--rule-hard); padding-bottom:.35rem}
+  .phh .pc{font-family:"IBM Plex Mono",monospace; font-size:1.05rem; font-weight:600; color:var(--blue)}
+  .phh h3{font-size:1.02rem; font-weight:700; margin:0}
+  .phh .ct{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--ink-3); font-weight:400; margin-left:.5rem}
+  .phn{font-size:.82rem; color:var(--ink-3); margin:.5rem 0 .2rem; max-width:44em}
+  .sc{overflow-x:auto; border:1px solid var(--rule); background:var(--sheet); margin:.8rem 0}
+  table{border-collapse:collapse; width:100%; min-width:640px; font-size:.85rem}
+  th,td{padding:.5rem .7rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--rule)}
+  thead th{background:var(--band); font-size:.7rem; letter-spacing:.05em; color:var(--ink-2); white-space:nowrap; border-bottom:1px solid var(--rule-hard)}
+  tbody tr:last-child td{border-bottom:none}
+  td.id{font-family:"IBM Plex Mono",monospace; color:var(--blue); font-weight:600; white-space:nowrap; width:3rem}
+  td.w{font-weight:500; min-width:11rem}
+  td.o{color:var(--ink-3); font-size:.8rem}
+  td.art{text-align:center; color:var(--blue); width:2.6rem}
+  .ai{font-family:"IBM Plex Mono",monospace; font-weight:600; display:inline-block; width:1.5rem; text-align:center}
+  .ai-a{color:var(--green)} .ai-b{color:var(--blue)} .ai-c{color:var(--amber)} .ai-d{color:var(--red)}
+  .pri{font-family:"IBM Plex Mono",monospace; font-size:.72rem; font-weight:600; padding:.1rem .4rem; display:inline-block}
+  .pA{background:var(--red-bg); color:var(--red)} .pB{background:var(--band); color:var(--ink-2)} .pC{color:var(--ink-3)}
+
+  /* 成果物カード */
+  .outs{display:grid; grid-template-columns:repeat(auto-fit,minmax(258px,1fr)); gap:1rem; margin:1.4rem 0}
+  .oc{background:var(--sheet); border:1px solid var(--rule); border-top:3px solid var(--green); padding:1rem 1.1rem 1.15rem}
+  .oc .f{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--green); word-break:break-all; display:block; margin-bottom:.45rem}
+  .oc .t{font-weight:700; font-size:.93rem; display:block; margin-bottom:.3rem}
+  .oc .d{font-size:.82rem; color:var(--ink-2); line-height:1.75; display:block}
+  .oc .tag{font-family:"IBM Plex Mono",monospace; font-size:.68rem; color:var(--ink-3); display:block; margin-top:.55rem; letter-spacing:.06em}
+
+  .grp{background:var(--sheet); border:1px solid var(--rule); padding:1rem 1.15rem 1.2rem; margin-bottom:1rem}
+  .grp .h{font-weight:700; font-size:.92rem; display:block; margin-bottom:.15rem}
+  .grp .s{font-size:.78rem; color:var(--ink-3); display:block; margin-bottom:.6rem}
+  .grp ul{margin:0; padding-left:1.15rem; font-size:.86rem; line-height:1.8}
+  .grp li{max-width:none; margin-bottom:.15rem}
+  .grp li b{font-family:"IBM Plex Mono",monospace; color:var(--blue); font-weight:600; font-size:.82rem}
+  .grp.g1{border-left:3px solid var(--red)} .grp.g2{border-left:3px solid var(--amber)} .grp.g3{border-left:3px solid var(--blue)}
+
+  .note{background:var(--sunk); border:1px solid var(--rule); padding:1rem 1.15rem; margin:1.5rem 0; font-size:.88rem}
+  .note p{margin:0; max-width:none; color:var(--ink-2)}
+  .note p+p{margin-top:.7rem}
+  .note b{color:var(--ink)}
+  .note.ask{background:var(--blue-bg); border-color:var(--blue)}
+  .note.ask b{color:var(--blue)}
+  pre{background:var(--sunk); border:1px solid var(--rule); padding:.9rem 1rem; overflow-x:auto;
+    font-family:"IBM Plex Mono",monospace; font-size:.78rem; line-height:1.8; margin:1.1rem 0}
+  footer{margin-top:4rem; border-top:1px solid var(--rule-hard); padding-top:1.4rem; font-size:.8rem; color:var(--ink-3); line-height:1.85}
+  footer p{max-width:44em}
+</style>
+
+<header class="tb">
+  <div class="wrap">
+    <p class="stamp"><span>WORK INVENTORY</span><b>2026-09-05</b><b>解体・専門工事</b><b>rev.0</b></p>
+    <h1>現調から請求まで</h1>
+    <p class="stand">案件が流れる順に <b>11フェーズ・58業務</b> へ分解しました。棚卸し・マニュアル化の優先順位・記事のネタ台帳を1つの表で兼ねています。<b>AIで置き換えられる業務については、実際に使えるアウトプットまで作りました。</b></p>
+    <div class="tiles">
+      <div class="ti"><span class="n">58</span><span class="k">引合から請求・改善までの業務数</span></div>
+      <div class="ti go"><span class="n">32</span><span class="k">AIを入れて時間が変わる業務（55%）</span></div>
+      <div class="ti hot"><span class="n">27</span><span class="k">マニュアル化の優先度A</span></div>
+      <div class="ti go"><span class="n">5</span><span class="k">今回すでに作ったアウトプット</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <div class="sh"><span class="fig">図 01</span><h2>AIで置き換えられるかどうかの4段階</h2></div>
+  <p class="lede">線引きの基準は1つだけです。<b>間違えたときに責任を負うのが誰か。</b>責任が移せない判断は、作業も移せません。</p>
+  <div class="keys">
+    <div class="key a"><span class="c">13件</span><span class="m">◎</span><span class="t">自動化してよい</span><span class="d">機械的作業。人が触る価値がない。採番、数量根拠の構造、内訳の展開、期限管理、請求、原価集計</span></div>
+    <div class="key b"><span class="c">19件</span><span class="m">○</span><span class="t">下書き＋人の確認</span><span class="d">AIに初稿を出させ、10〜15分で監修する。施工計画書、安全書類、日報、完了報告、精算</span></div>
+    <div class="key c2"><span class="c">13件</span><span class="m">△</span><span class="t">条件付き</span><span class="d">形式は任せられるが判断は人。届出の要否、配置計画、手配、有価売却</span></div>
+    <div class="key d"><span class="c">13件</span><span class="m">✕</span><span class="t">人／有資格者のみ</span><span class="d">実測、現地の条件確認、石綿調査、単価設定、施工そのもの、検査</span></div>
+  </div>
+  <div class="note">
+    <p><b>◎と○を合わせて32業務（55%）</b>が、AIを入れて時間が変わります。残る26業務は現場に立つか資格を持つかが要る仕事で、効率化の対象外です。</p>
+    <p><b>C4「単価の設定」だけは、便利でも触らせない。</b>自社の歩掛と協力会社の単価は競争力そのもので、一般論の相場に置き換えた瞬間、赤字か失注のどちらかになります。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 02</span><h2>業務一覧</h2></div>
+  <p class="lede">「記事」列の ● は、そのまま <code>content/</code> の記事・動画ネタになるもの。58業務中30件。<b>社内マニュアルを1本書くと、公開用の記事が1本できる構造</b>にしてあります。</p>
+<div class="ph">
+<div class="phh"><span class="pc">A</span><h3>引合・受付<span class="ct">4</span></h3></div>
+<p class="phn">案件が動き出すまで。ここでの記録の粗さが、後の全工程に効いてくる</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">A1</td><td class="w">引合受付・一次ヒアリング</td><td class="o">案件メモ（範囲・工期・元請/直・予算感）</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">A2</td><td class="w">案件登録・採番</td><td class="o">案件No、フォルダ・命名規則</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art"></td></tr>
+<tr><td class="id">A3</td><td class="w">現調の日程調整・立会者確定</td><td class="o">調整連絡、確定連絡</td><td><span class="ai ai-b">○</span></td><td><span class="pri pC">C</span></td><td class="art"></td></tr>
+<tr><td class="id">A4</td><td class="w">事前資料の入手</td><td class="o">既存図面、竣工図、過去の石綿調査結果</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">B</span><h3>現地調査<span class="ct">7</span></h3></div>
+<p class="phn">全業務の起点。ここで測り漏らした値は、以降すべてに仮定値として伝播する</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">B1</td><td class="w">現調準備</td><td class="o">持ち物リスト、出力図面、測定器具、安全装備</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">B2</td><td class="w">実測</td><td class="o">図面への赤書き（寸法・高さ・離隔）</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">B3</td><td class="w">写真撮影</td><td class="o">全景／部位／取合い／搬出経路／近隣</td><td><span class="ai ai-c">△</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">B4</td><td class="w">施工条件の確認</td><td class="o">営業中か、作業時間帯、駐車場、電源・水、道路幅員</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+<tr><td class="id">B5</td><td class="w">立会いでの聞取り</td><td class="o">材質、要望、別途範囲、既存図の有無</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">B6</td><td class="w">石綿の目視・書面調査（一次）</td><td class="o">調査記録（有資格者）</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+<tr><td class="id">B7</td><td class="w">現調メモの整理</td><td class="o">書込みPDF、実測値の一覧化</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">C</span><h3>積算・見積<span class="ct">6</span></h3></div>
+<p class="phn">AIの効果が最も大きい工程。ただし単価だけは触らせない</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">C1</td><td class="w">数量根拠の作成</td><td class="o">実測値と計算式を分離したシート</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">C2</td><td class="w">数量拾い</td><td class="o">面積・延長・重量の算出</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">C3</td><td class="w">内訳項目の展開</td><td class="o">仮設／事前調査／撤去／運搬処分／諸経費</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">C4</td><td class="w">単価の設定</td><td class="o">自社歩掛、協力会社見積、処分場単価、リース単価</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">C5</td><td class="w">別途工事・確認事項の明記</td><td class="o">含まない工事の一覧、未確認事項のリスト</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">C6</td><td class="w">見積書の体裁作成・社内チェック</td><td class="o">提出用の見積書</td><td><span class="ai ai-b">○</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">D</span><h3>提出・折衝・受注<span class="ct">5</span></h3></div>
+<p class="phn">rev管理の事故が起きやすい。図面が rev.4 まで進む案件では特に</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">D1</td><td class="w">見積提出</td><td class="o">送付文、提出記録</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pC">C</span></td><td class="art"></td></tr>
+<tr><td class="id">D2</td><td class="w">質疑応答・条件交渉</td><td class="o">数量根拠の説明、条件の擦り合わせ</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+<tr><td class="id">D3</td><td class="w">見積改訂（rev管理）</td><td class="o">rev.N の見積書、変更点の一覧</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art"></td></tr>
+<tr><td class="id">D4</td><td class="w">受注・契約</td><td class="o">注文書／請書、建設業法の法定記載事項の確認</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art"></td></tr>
+<tr><td class="id">D5</td><td class="w">着工前の工程合意</td><td class="o">工程表、作業日・時間帯の確定</td><td><span class="ai ai-b">○</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">E</span><h3>法定手続・届出<span class="ct">6</span></h3></div>
+<p class="phn">様式の下書きまでがAIの守備範囲。要否の判断は所轄に訊く以外の正解がない</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">E1</td><td class="w">石綿事前調査（有資格者）</td><td class="o">事前調査結果記録</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">E2</td><td class="w">分析依頼・結果受領</td><td class="o">分析依頼書、分析結果報告書</td><td><span class="ai ai-b">○</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+<tr><td class="id">E3</td><td class="w">事前調査結果の報告（労基署・自治体）</td><td class="o">報告控え</td><td><span class="ai ai-c">△</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">E4</td><td class="w">建設リサイクル法の届出</td><td class="o">届出控え（対象工事の場合）</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">E5</td><td class="w">道路使用許可申請／道路占用</td><td class="o">許可証、添付図面</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">E6</td><td class="w">特定粉じん排出等作業実施届出</td><td class="o">届出控え（含有判明時）</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">F</span><h3>施工準備<span class="ct">7</span></h3></div>
+<p class="phn">書類作成時間が50〜80%削減された事例が公表されているのは、この工程</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">F1</td><td class="w">施工計画書・作業手順書</td><td class="o">施工計画書</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">F2</td><td class="w">KY・リスクアセスメント、安全書類</td><td class="o">グリーンファイル一式</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">F3</td><td class="w">有資格者・作業員の配置計画</td><td class="o">体制表、資格の有効期限確認</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">F4</td><td class="w">重機・車両・仮設の手配</td><td class="o">高所作業車、ローリングタワー、4t車の予約</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">F5</td><td class="w">協力会社への発注</td><td class="o">注文書、単価合意</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">F6</td><td class="w">近隣挨拶・周知</td><td class="o">挨拶文、配布記録</td><td><span class="ai ai-b">○</span></td><td><span class="pri pC">C</span></td><td class="art"></td></tr>
+<tr><td class="id">F7</td><td class="w">処分場・収集運搬の手配、マニフェスト準備</td><td class="o">契約確認、マニフェスト</td><td><span class="ai ai-c">△</span></td><td><span class="pri pA">A</span></td><td class="art"></td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">G</span><h3>施工<span class="ct">6</span></h3></div>
+<p class="phn">現場に立つ仕事。AIが入る余地は記録の側にしかない</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">G1</td><td class="w">朝礼・KY・持込機械点検</td><td class="o">KY記録、点検表</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">G2</td><td class="w">養生・区画・誘導員配置</td><td class="o">実施記録、写真</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">G3</td><td class="w">撤去作業</td><td class="o">—</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pC">C</span></td><td class="art">●</td></tr>
+<tr><td class="id">G4</td><td class="w">施工写真の撮影</td><td class="o">着工前／施工中／完了、黒板付き</td><td><span class="ai ai-c">△</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">G5</td><td class="w">日報・出面の記録</td><td class="o">日報、出面表</td><td><span class="ai ai-b">○</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">G6</td><td class="w">変更・追加の記録</td><td class="o">変更指示の記録、追加費用の根拠</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">H</span><h3>廃棄物・処分<span class="ct">4</span></h3></div>
+<p class="phn">H3は期限管理そのもの。人の記憶で回している間はリスクが残り続ける</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">H1</td><td class="w">分別・積込</td><td class="o">—</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pC">C</span></td><td class="art"></td></tr>
+<tr><td class="id">H2</td><td class="w">運搬・処分、マニフェスト交付</td><td class="o">マニフェスト（交付分）</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">H3</td><td class="w">マニフェスト返送の確認・保管</td><td class="o">返送確認、5年保管</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">H4</td><td class="w">有価物の売却処理</td><td class="o">売却伝票、原価への反映</td><td><span class="ai ai-c">△</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">I</span><h3>完了・引渡し<span class="ct">4</span></h3></div>
+<p class="phn">写真の整理は既に photo-sheet.html がある。作りかけの資産を活かす</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">I1</td><td class="w">清掃・復旧・自主検査</td><td class="o">自主検査チェックリスト</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">I2</td><td class="w">完了写真の整理</td><td class="o">写真台帳</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">I3</td><td class="w">施主・元請検査、是正</td><td class="o">検査記録、是正完了報告</td><td><span class="ai ai-d">✕</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">I4</td><td class="w">完了報告書・提出書類一式</td><td class="o">完了報告書、写真、マニフェスト控え</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art"></td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">J</span><h3>請求・入金<span class="ct">5</span></h3></div>
+<p class="phn">J5 が C4 に還る。この輪が閉じていないと、次の見積に根拠がない</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">J1</td><td class="w">出来高・変更精算の確定</td><td class="o">精算内訳（G6 の記録が根拠）</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">J2</td><td class="w">請求書作成・送付</td><td class="o">請求書（インボイス対応）</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art"></td></tr>
+<tr><td class="id">J3</td><td class="w">入金確認・消込</td><td class="o">入金台帳</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">J4</td><td class="w">協力会社への支払</td><td class="o">支払明細</td><td><span class="ai ai-b">○</span></td><td><span class="pri pB">B</span></td><td class="art"></td></tr>
+<tr><td class="id">J5</td><td class="w">原価集計・案件別粗利の確定</td><td class="o">案件別収支</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+</tbody></table></div>
+</div>
+<div class="ph">
+<div class="phh"><span class="pc">K</span><h3>記録・改善<span class="ct">4</span></h3></div>
+<p class="phn">マニュアル化とコンテンツ化が同じ作業になる場所</p>
+<div class="sc"><table><thead><tr><th>No</th><th>業務</th><th>成果物</th><th>AI</th><th>優先</th><th>記事</th></tr></thead><tbody>
+<tr><td class="id">K1</td><td class="w">実績歩掛の更新</td><td class="o">歩掛表（次回見積へ反映）</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">K2</td><td class="w">ヒヤリハット・是正の記録</td><td class="o">記録票</td><td><span class="ai ai-b">○</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+<tr><td class="id">K3</td><td class="w">マニュアル・テンプレの更新</td><td class="o">各手順書</td><td><span class="ai ai-b">○</span></td><td><span class="pri pA">A</span></td><td class="art">●</td></tr>
+<tr><td class="id">K4</td><td class="w">コンテンツ化（記事・動画）</td><td class="o">content/articles/*.md</td><td><span class="ai ai-a">◎</span></td><td><span class="pri pB">B</span></td><td class="art">●</td></tr>
+</tbody></table></div>
+</div>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 03</span><h2>すでに作ったアウトプット</h2></div>
+  <p class="lede">◎・○の業務のうち、御社の実データから今すぐ形にできるものを5つ作りました。すべて <code>ops/</code> に置いてあります。</p>
+  <div class="outs">
+    <div class="oc">
+      <span class="f">ops/templates/prompts.md</span>
+      <span class="t">業務別プロンプト集</span>
+      <span class="d">◎○に分類した15業務について、そのまま貼って使える指示文。共通の前置き（推測で埋めない・法令を断定しない・単価は渡した値のみ使う）を先頭に固定してあります。末尾には<b>使ってはいけないプロンプト5例</b>も。</span>
+      <span class="tag">B7 C1 C3 C5 D3 D4 E5 F1 F2 F6 G6 H3 I4 J1 J5 K1 K4</span>
+    </div>
+    <div class="oc">
+      <span class="f">ops/templates/B1-site-survey-checklist.md</span>
+      <span class="t">現地調査チェックリスト</span>
+      <span class="d">9/2 の現調で<b>測り漏らした2箇所を反映</b>して作成。寸法9項目は「測れなかったら理由を書く」欄つき。持ち物にレーザー距離計の三脚を追加（今回はこれが無くて高所が取れなかった）。</span>
+      <span class="tag">B1 ／ 優先度 A ／ 印刷して現場へ</span>
+    </div>
+    <div class="oc">
+      <span class="f">ops/templates/F1-construction-plan.md</span>
+      <span class="t">施工計画書ドラフト</span>
+      <span class="d">今回の車寄せ案件で実際に生成したもの。工事概要・施工手順11ステップ・リスクと対策・廃棄物・含まないもの・着工前に確定させる9項目。<b>冒頭に「AI下書き・未監修」を明記</b>してあります。</span>
+      <span class="tag">F1 ／ 優先度 A ／ 要監修</span>
+    </div>
+    <div class="oc">
+      <span class="f">ops/templates/H3-manifest-tracker.md</span>
+      <span class="t">マニフェスト返送管理</span>
+      <span class="d">交付日と区分を入れると B2・D・E の期限と残日数が出る管理表。特管は60日、それ以外は90日／180日。<b>人の判断が一切入らないので完全自動化してよい</b>領域です。</span>
+      <span class="tag">H3 ／ 優先度 A ／ 通知まで自動化推奨</span>
+    </div>
+    <div class="oc">
+      <span class="f">ops/work-inventory.md</span>
+      <span class="t">業務一覧（このページの元データ）</span>
+      <span class="d">58業務の全リストと、マニュアル化の順番、業務→記事→収益導線の対応表。末尾に<b>推測が入っている8点</b>を明記してあるので、実態と違うところを直してください。</span>
+      <span class="tag">全フェーズ</span>
+    </div>
+  </div>
+  <div class="note">
+    <p><b>F1（施工計画書）は「未監修」のまま渡しています。</b>これは手抜きではなく設計です。AIが作った書類を監修済みの顔で出すと、次に誰かがそのまま使います。冒頭にrev.0・未監修と書いてあれば、必ず誰かの目が入る。<b>書類の信頼度を、書類自身に書かせておく</b>のが一番安全です。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 04</span><h2>マニュアル化の順番</h2></div>
+  <p class="lede">優先度Aは27業務あります。全部を一度に作ろうとすると必ず頓挫するので、<b>事故コストが高い順</b>に3群へ分けます。書きやすい順に作ると、書きやすいものだけが揃って終わります。</p>
+  <div class="grp g1">
+    <span class="h">第1群｜抜けると法令・金銭の事故になる（6本）</span>
+    <span class="s">まずここ。1本あたりA4で1〜2枚</span>
+    <ul>
+      <li><b>H3</b> マニフェスト返送の期限管理 ── 作成済み</li>
+      <li><b>E3</b> 事前調査結果の報告</li>
+      <li><b>E5</b> 道路使用許可の申請 ── プロンプト作成済み</li>
+      <li><b>D4</b> 契約書面の法定記載事項チェック ── プロンプト作成済み</li>
+      <li><b>G6</b> 変更・追加の記録 ── プロンプト作成済み</li>
+      <li><b>J1</b> 出来高・変更精算 ── プロンプト作成済み</li>
+    </ul>
+  </div>
+  <div class="grp g2">
+    <span class="h">第2群｜属人化していて、他の人が代われない（6本）</span>
+    <span class="s">現調から見積までの一連。ここが止まると案件が止まる</span>
+    <ul>
+      <li><b>B1</b> 現調準備チェックリスト ── 作成済み</li>
+      <li><b>B2</b> 実測の手順（何を必ず測るか、測れない時どうするか）</li>
+      <li><b>B7</b> 現調メモの整理 ── プロンプト作成済み</li>
+      <li><b>C1</b> 数量根拠の作り方 ── プロンプト作成済み</li>
+      <li><b>C3</b> 内訳項目の展開 ── プロンプト作成済み</li>
+      <li><b>C5</b> 別途工事・確認事項の書き方 ── プロンプト作成済み</li>
+    </ul>
+  </div>
+  <div class="grp g3">
+    <span class="h">第3群｜頻度が高く、時間を食っている（6本）</span>
+    <span class="s">効果が数字で見えるので、続ける動機になる</span>
+    <ul>
+      <li><b>F1</b> 施工計画書 ── ドラフト作成済み</li>
+      <li><b>F2</b> 安全書類 ── プロンプト作成済み</li>
+      <li><b>G4</b> 施工写真の撮り方</li>
+      <li><b>I2</b> 完了写真の整理 ── <code>photo-sheet.html</code> が既にある</li>
+      <li><b>J2</b> 請求書</li>
+      <li><b>J5</b> 原価集計 ── プロンプト作成済み</li>
+    </ul>
+  </div>
+
+  <h4>粒度は「1本＝A4で1〜2枚」に固定する</h4>
+  <p>手順書を大作にすると、書くのも読むのも続きません。項目はこの5つだけに固定します。</p>
+  <pre>1. いつやるか（トリガー）
+2. 何を用意するか（インプット）
+3. 手順（番号付き。判断が要る箇所は「※」で分岐を書く）
+4. 何ができたら完了か（アウトプット）
+5. よくある失敗（自社で実際に起きたもののみ）</pre>
+  <p><b>5番目が一番価値があります。</b>一般論の失敗例は要りません。実際にやらかしたことだけを書く。B1のチェックリストには、9/2の「距離計未携行で高所2箇所が未測定」「ケイカル15ヶの単位を未確認」を既に入れてあります。</p>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 05</span><h2>マニュアルは、そのまま記事になる</h2></div>
+  <p class="lede">今回いちばん効くのはここです。マニュアル化とコンテンツ化は、別作業ではなく<b>同じ作業の内向きと外向き</b>です。</p>
+  <p>上の5項目のうち、<b>1〜4を匿名化すれば手順記事</b>、<b>5がそのまま「つまずき」の記事</b>になります。<code>content/FORMAT.md</code> の記事＝台本フォーマットに、ほぼそのまま流し込めます。</p>
+  <p>社内向けに1本書けば、公開用が1本できる。逆に記事を書けば社内マニュアルが1本増える。<b>本業を持っている人が発信で有利になるのは、この構造があるからです。</b>ネタ切れが起きないし、書くために新しく調べる必要もありません。</p>
+  <div class="sc"><table>
+    <thead><tr><th>業務</th><th>記事になるもの</th><th>収益導線</th></tr></thead>
+    <tbody>
+      <tr><td class="id">B1 B2 B7</td><td>現調メモの取り方、測れない箇所の扱い</td><td class="o">測量・現場カメラ・野帳アプリ</td></tr>
+      <tr><td class="id">C1 C2 C3 C5</td><td>数量根拠の作り方、内訳の展開</td><td class="o">建設業向け見積・原価管理SaaS</td></tr>
+      <tr><td class="id">E1〜E6</td><td>石綿の書類、届出の実際</td><td class="o">業務システム、AI-OCR</td></tr>
+      <tr><td class="id">F1 F2</td><td>施工計画書・安全書類の作り方</td><td class="o">安全書類作成サービス、電子契約</td></tr>
+      <tr><td class="id">G4 I2</td><td>施工写真の撮り方・整理</td><td class="o">現場写真管理アプリ、クラウド</td></tr>
+      <tr><td class="id">H2 H3</td><td>マニフェストの期限管理</td><td class="o">電子マニフェスト</td></tr>
+      <tr><td class="id">J2 J5</td><td>案件別粗利を出すまで</td><td class="o">会計・請求ソフト、原価管理SaaS</td></tr>
+      <tr><td class="id">全体</td><td>中小の解体業者がAIに月いくら払うと元が取れるか</td><td class="o">生成AIツール</td></tr>
+    </tbody>
+  </table></div>
+  <p>既に書いた記事3本（<code>content/articles/</code>）は、この表の <b>B・C・E</b> に該当します。</p>
+</section>
+
+<section>
+  <div class="sh"><span class="fig">図 06</span><h2>推測が入っている8点</h2></div>
+  <p class="lede">この一覧は、見積書・図面・写真シートから<b>実際にやっている工程を読み取って</b>組み立てました。読み取れなかった部分は一般的な流れで補っています。次の8点は実態と違う可能性があります。</p>
+  <div class="note ask">
+    <p><b>1.</b> 元請経由と直請けの両方があるか（見積の立会いに元請担当が入っているため元請案件と判断しました）<br>
+    <b>2.</b> 請求書の作成方法（会計ソフト／Excel／手書き）<br>
+    <b>3.</b> 案件別の原価集計をやっているか、やっているなら何で<br>
+    <b>4.</b> 協力会社への発注・支払の流れ<br>
+    <b>5.</b> 施工写真の管理方法（<code>photo-sheet.html</code> は印刷用。台帳としての保管先が不明）<br>
+    <b>6.</b> マニフェストの運用（紙／電子）<br>
+    <b>7.</b> 建設業許可の区分と、対応できる工事規模の上限<br>
+    <b>8.</b> 実績歩掛を蓄積しているか（C4 の単価の根拠）</p>
+  </div>
+  <p><b>特に 3 と 8 は重要です。</b>J5（原価集計）が C4（単価の設定）に還る輪が閉じていないと、次の見積の単価に根拠がありません。ここが閉じているかどうかで、優先順位が変わります。</p>
+</section>
+
+<footer>
+  <p>素材：2026年9月2日 現地調査の実測書込み、見積内訳（21項目・5工種）、撤去範囲図（rev.4）、写真シート。業務の分解はこれらから読み取れる工程を軸に、解体・専門工事の一般的な流れで補っています。</p>
+  <p>施工計画書のドラフトおよび石綿に関する記述は、有資格者の確認を経ていません。法令の適用可否・届出要否の判断を代替するものではなく、実務では必ず有資格者および所轄官庁に確認してください。</p>
+</footer>
+
+</main>
