@@ -1,0 +1,48 @@
+name: SwitchBot「下上」を25分ごとに実行
+
+# 日本時間 8:00〜23:00 の間、8:00 を起点に 25 分ごと（1日37回）。
+# 25 分周期は 5 時間で 1 巡するため、6 本の cron に分解している。
+# GitHub Actions の cron は UTC 指定なので JST から 9 時間引いてある。
+#
+#   JST 8,13,18時 :00 :25 :50   -> UTC 23,4,9
+#   JST 9,14,19時 :15 :40       -> UTC 0,5,10
+#   JST 10,15,20時 :05 :30 :55  -> UTC 1,6,11
+#   JST 11,16,21時 :20 :45      -> UTC 2,7,12
+#   JST 12,17,22時 :10 :35      -> UTC 3,8,13
+#   JST 23時 :00                -> UTC 14
+
+on:
+  schedule:
+    - cron: "0,25,50 23,4,9 * * *"
+    - cron: "15,40 0,5,10 * * *"
+    - cron: "5,30,55 1,6,11 * * *"
+    - cron: "20,45 2,7,12 * * *"
+    - cron: "10,35 3,8,13 * * *"
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+    inputs:
+      scene:
+        description: "実行するシーン名（既定: 下上）"
+        required: false
+        default: "下上"
+
+concurrency:
+  group: switchbot-shita-ue
+  cancel-in-progress: false
+
+jobs:
+  run-scene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 実行時刻（JST）を表示
+        run: TZ=Asia/Tokyo date "+JST %Y-%m-%d %H:%M:%S"
+
+      - name: シーンを実行
+        env:
+          SWITCHBOT_TOKEN: ${{ secrets.SWITCHBOT_TOKEN }}
+          SWITCHBOT_SECRET: ${{ secrets.SWITCHBOT_SECRET }}
+          SWITCHBOT_SCENE: ${{ inputs.scene || '下上' }}
+        run: python3 switchbot/run_scene.py
